@@ -15,4 +15,4 @@ IRSE-handout-2025/IRSE-template.bcf-SAVE-ERROR
 IRSE-handout-2025/IRSE-template.bbl-SAVE-ERROR
 .venv
 __pycache__/
-preprocessed_recipes.pkl
+preprocessed_recipes*.pkl
