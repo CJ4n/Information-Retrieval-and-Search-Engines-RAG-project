@@ -16,3 +16,11 @@ IRSE-handout-2025/IRSE-template.bbl-SAVE-ERROR
 .venv
 __pycache__/
 preprocessed_recipes*.pkl
+IRSE-handout-2025/pre/IRSE-template.aux
+IRSE-handout-2025/pre/IRSE-template.fdb_latexmk
+IRSE-handout-2025/pre/IRSE-template.fls
+IRSE-handout-2025/pre/IRSE-template.log
+IRSE-handout-2025/IRSE-template.pdf
+wikIR1k
+recipe_embeddings.npy
+irse_2025_wikir.zip

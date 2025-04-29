@@ -1,3 +1,4 @@
 {
-    "errorLens.enabled": false
+    "errorLens.enabled": false,
+    "python.analysis.typeCheckingMode": "off"
 }
