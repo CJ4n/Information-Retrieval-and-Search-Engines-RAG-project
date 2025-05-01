@@ -1,4 +1,6 @@
 {
     "errorLens.enabled": false,
-    "python.analysis.typeCheckingMode": "off"
+    "python.analysis.typeCheckingMode": "off",
+    "latex-workshop.linting.chktex.enabled": true,
+    "latex-workshop.formatting.latex": "tex-fmt",
 }

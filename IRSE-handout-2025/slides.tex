@@ -1,42 +1,137 @@
 \documentclass{beamer}
 
-% Theme selection
 \usetheme{Madrid}
 \usecolortheme{default}
 
-% Title information
-\title{My Presentation Title}
-\author{Your Name}
-\institute{Your Institution}
+\title{IRSE Projecet}
+\author{Jan Cichomski (r1026448)}
 \date{\today}
 
 \begin{document}
 
-% Title slide
 \begin{frame}
-    \titlepage
+  \titlepage
 \end{frame}
 
-% Table of contents slide
 \begin{frame}{Outline}
-    \tableofcontents
+  \tableofcontents
+\end{frame}
+\begin{frame}{Architecture}
+  TODO
 \end{frame}
 
-% Regular slide
-\begin{frame}{My First Slide}
+\begin{frame}{1. Term Vocabulary}
+
+\end{frame}
+
+\begin{frame}{1.1 Term Vocabulary}
+  \begin{itemize}
+    \item To lower case
+    \item remove punctuation
+    \item tokenize
+    \item remove english stop words (added custom stop words)
+    \item lammatize
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{1.1 Temr Vocabulary - Code}
+    \begin{verbatim}
+def preprocess_text(doc):
+    doc = doc.translate(str.maketrans("", "",
+        string.punctuation)).lower()
+    words = word_tokenize(doc)
+    words = [
+        lemmatizer.lemmatize(word)
+        for word in words
+        if word not in stop_words and word.isalpha()
+    ]
+    return " ".join(words)
+    \end{verbatim}
+\end{frame}
+\begin{frame}[fragile]{1.1 Term Vocabulary - Custom stop words}
+    \begin{verbatim}
+stop_words.update(
+    [
+        "add",
+        "added",
+        "adding",
+        "addition",
+        "also",
+        "almost",
+        "another",
+        "easily",
+        "easy",
+    ]
+)
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}{1.2 Term Vocabulary}
+  Two types of terms:
+  \begin{itemize}
+    \item 1-grams
+      \begin{itemize}
+        \item min\_df=20
+        \item max\_df=0.5
+      \end{itemize}
+    \item 2-grams
+      \begin{itemize}
+        \item 10,000 terms
+        \item min\_df=50
+        \item max\_df=0.4
+      \end{itemize}
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{1.3 Term Vocabulary}
+  \begin{itemize}
+    \item 2-grams with aggressive filtering
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{2 Document Embedding}
+\end{frame}
+
+\begin{frame}{2.1 Document Embedding}
+  I use all fields for embedding:
+  \begin{itemize}
+    \item name
+    \item description
+    \item ingredients
+    \item steps
+  \end{itemize}
+
+  \begin{itemize}
+    \item Tested different combinations
+    \item Make sense as user may ask about any information
+  \end{itemize}
+  TODO: add some data
+\end{frame}
+
+\begin{frame}[fragile]{2.2 Document Embedding}
+  The same approche as for embedding documents
+    \begin{verbatim}
+  def retrieve_documents(query_text, recipies,
+                    recipe_ids, k, threshold):
+  query = preprocess_text(query_text)
+  ...
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}{2.3 Document Embedding - Edge Cases}
     \begin{itemize}
-        \item First point
-        \item Second point
-        \item Third point
+        \item Problem: When query has no terms from vocabulary
+        \begin{itemize}
+            \item TF-IDF produces zero vector for the query
+            \item Cosine similarity returns 0 for all documents
+        \end{itemize}
+        \item Consequences:
+        \begin{itemize}
+            \item Without similarity threshold: All documents returned (no filtering)
+            \item With any similarity threshold: No documents returned (empty result)
+        \end{itemize}
     \end{itemize}
-\end{frame}
-
-% Slide with an equation
-\begin{frame}{Mathematical Equations}
-    Einstein's famous equation:
-    \begin{equation}
-        E = mc^2
-    \end{equation}
 \end{frame}
 
 \end{document}
