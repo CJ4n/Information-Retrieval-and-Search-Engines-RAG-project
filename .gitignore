@@ -25,3 +25,14 @@ wikIR1k
 recipe_embeddings.npy
 irse_2025_wikir.zip
 recipe_cooking_embeddings.npy
+IRSE-handout-2025/slides.aux
+.gitignore
+IRSE-handout-2025/slides.fdb_latexmk
+IRSE-handout-2025/slides.log
+IRSE-handout-2025/slides.fls
+IRSE-handout-2025/slides.nav
+IRSE-handout-2025/slides.out
+IRSE-handout-2025/slides.snm
+IRSE-handout-2025/slides.synctex.gz
+IRSE-handout-2025/slides.toc
+wiki_embeddings.npy
