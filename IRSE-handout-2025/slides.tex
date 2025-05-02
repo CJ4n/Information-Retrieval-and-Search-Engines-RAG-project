@@ -16,15 +16,15 @@
 \begin{frame}{Outline}
   \tableofcontents
 \end{frame}
-\begin{frame}{Architecture}
+\begin{frame}{1. Architecture}
   TODO
 \end{frame}
 
-\begin{frame}{1. Term Vocabulary}
+\begin{frame}{2. Term Vocabulary}
 
 \end{frame}
 
-\begin{frame}{1.1 Term Vocabulary}
+\begin{frame}{2.1 Term Vocabulary - Document Preprocessing}
   \begin{itemize}
     \item To lower case
     \item remove punctuation
@@ -34,7 +34,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{1.1 Temr Vocabulary - Code}
+\begin{frame}[fragile]{2.1 Temr Vocabulary - Document Preprocessing}
     \begin{verbatim}
 def preprocess_text(doc):
     doc = doc.translate(str.maketrans("", "",
@@ -48,7 +48,7 @@ def preprocess_text(doc):
     return " ".join(words)
     \end{verbatim}
 \end{frame}
-\begin{frame}[fragile]{1.1 Term Vocabulary - Custom stop words}
+\begin{frame}[fragile]{2.1 Term Vocabulary - Custom stop words}
     \begin{verbatim}
 stop_words.update(
     [
@@ -66,7 +66,7 @@ stop_words.update(
     \end{verbatim}
 \end{frame}
 
-\begin{frame}{1.2 Term Vocabulary}
+\begin{frame}{2.2 Term Vocabulary - Hyperparameters}
   Two types of terms:
   \begin{itemize}
     \item 1-grams
@@ -84,16 +84,16 @@ stop_words.update(
 
 \end{frame}
 
-\begin{frame}{1.3 Term Vocabulary}
+\begin{frame}{2.3 Term Vocabulary - Handling mulit-word terms}
   \begin{itemize}
     \item 2-grams with aggressive filtering
   \end{itemize}
 \end{frame}
 
-\begin{frame}{2 Document Embedding}
+\begin{frame}{3 Document Embedding}
 \end{frame}
 
-\begin{frame}{2.1 Document Embedding}
+\begin{frame}{3.1 Document Embedding - Chosen Fields}
   I use all fields for embedding:
   \begin{itemize}
     \item name
@@ -109,7 +109,7 @@ stop_words.update(
   TODO: add some data
 \end{frame}
 
-\begin{frame}[fragile]{2.2 Document Embedding}
+\begin{frame}[fragile]{3.2 Document Embedding - Query Preprocessing}
   The same approche as for embedding documents
     \begin{verbatim}
   def retrieve_documents(query_text, recipies,
@@ -119,19 +119,119 @@ stop_words.update(
     \end{verbatim}
 \end{frame}
 
-\begin{frame}{2.3 Document Embedding - Edge Cases}
-    \begin{itemize}
-        \item Problem: When query has no terms from vocabulary
-        \begin{itemize}
-            \item TF-IDF produces zero vector for the query
-            \item Cosine similarity returns 0 for all documents
-        \end{itemize}
-        \item Consequences:
-        \begin{itemize}
-            \item Without similarity threshold: All documents returned (no filtering)
-            \item With any similarity threshold: No documents returned (empty result)
-        \end{itemize}
-    \end{itemize}
+\begin{frame}{3.3 Document Embedding - Edge Cases}
+  \begin{itemize}
+    \item Problem: When query has no terms from vocabulary
+      \begin{itemize}
+        \item TF-IDF produces zero vector for the query
+        \item Cosine similarity returns 0 for all documents
+      \end{itemize}
+    \item Consequences:
+      \begin{itemize}
+        \item Without similarity threshold: All documents returned (no filtering)
+        \item With any similarity threshold: No documents returned (empty result)
+      \end{itemize}
+  \end{itemize}
 \end{frame}
 
+\begin{frame}{4 Retrieval}
+\end{frame}
+
+\begin{frame}{4.1 Retrieval - Similarity Measure}
+  \begin{itemize}
+    \item Cosine similarity - picked finally
+    \item Euclidean distance
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{4.2 Retrieval - Hyperparameters}
+  \begin{itemize}
+    \item Max number of returned documents: 40
+    \item Minimum threshold for cosine similarity: 0.2
+  \end{itemize}
+  I used grid search over param space
+
+  \begin{verbatim}
+def create_parameter_heatmap(queries, recipes, recipe_ids):
+  thresholds = np.arange(0.1, 0.60, 0.05)
+  k_values = np.arange(20, 60, 5)
+  \end{verbatim}
+
+\end{frame}
+
+\begin{frame}{4.3 Retrieval - Evaluation Metrics}
+  \begin{itemize}
+    \item Macro Precision: 0.130
+    \item Macro Recall: 0.201
+    \item Macro F1: 0.126
+    \item Micro Precision: 0.128
+    \item Micro Recall: 0.191
+    \item Micro F1: 0.153
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{4.4 Retrieval - MAP}
+  Mean Average Precision (MAP): 0.086
+  \begin{equation}
+    AP = \frac{1}{RD} \sum_{k=1}^{n} P(k) \cdot r(k),
+  \end{equation}
+  Were $RD$  is the number of relevant documents for the query, $n$ is the total number of documents, $P(k)$
+  is the precision at $k$, and $r(k)$ is the relevance of the $k^{th}$ retrieved document ($0$ if not relevant, and $1$ if
+  relevant)
+  \begin{equation}
+    MAP = \frac{1}{Q} \sum_{i=1}^{Q} AP_i
+  \end{equation}
+  Where $Q$ is the number of queries and $AP_i$ is the average precision for the $i^{th}$ query.
+\end{frame}
+
+\begin{frame}[fragile]{4.4 Retrieval - MAP Code}
+  \begin{verbatim}
+def calculate_average_precision(relevant_doc_ids,
+                                retrieved_doc_ids):
+  hit_count = 0
+  sum_precisions = 0.0
+  for i, doc_id in enumerate(retrieved_doc_ids):
+      if doc_id in relevant_doc_ids:
+          hit_count += 1
+          precision_at_i = hit_count / (i + 1)
+          sum_precisions += precision_at_i
+      # else: sum_precisions += 0.0
+  if len(relevant_doc_ids) == 0:
+      return 0.0
+  return sum_precisions / len(relevant_doc_ids)
+  \end{verbatim}
+\end{frame}
+
+\begin{frame} {5. Qualitative analysis - information Retrieval}
+\end{frame}
+
+\begin{frame} {5.1 Qualitative analysis - IR - }
+  Problem: Even though there is no relevant information in the document, the system returns somed documents\\
+  Prompt: "Where can I follow cooking classes"\\
+  Output: MB in hand outs???
+\end{frame}
+
+\begin{frame} {5.2 Qualitative analysis - IR - }
+  Problem: Ignores context of entities in query\\
+  Prompt: "How does Gordon Ramsay make his beef Wellington?"\\
+  Output: MB in hand outs???
+\end{frame}
+
+\begin{frame} {5.3 Qualitative analysis - IR - }
+  Problem: Can't handle extermalyl rare words, like "Paraguay"\\
+  Prompt: "Do you know any soups from Paraguay?"\\
+  Output: MB in hand outs???
+\end{frame}
+
+\begin{frame} {5.4 Qualitative analysis - IR - }
+  Problem: TF-IDF doesn't handle typos\\
+  Prompt: "How do you make \textbf{piza}"\\
+  Output: MB in hand outs???
+\end{frame}
+
+\begin{frame} {5.5 Qualitative analysis - IR - }
+  Problem: Can't capture negation\\
+  Prompt:  "I do not want to eat pizza, what can I eat instead?"\\
+  Output: MB in hand outs???
+\end{frame}
 \end{document}
