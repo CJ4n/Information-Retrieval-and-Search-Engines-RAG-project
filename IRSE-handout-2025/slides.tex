@@ -304,12 +304,27 @@ for idx, (recipe, recipe_id, score) in enumerate(results):
 \begin{frame}{7.2 Qualitative analysis - TODO}
 \end{frame}
 
-\begin{frame}{7.3 Qualitative analysis - Hallucination}
+\begin{frame}[fragile]{7.3 Qualitative analysis - Hallucination}
   \begin{itemize}
-    \item Standard prompt, but with no documented provided
-    \item Yet LLM answered
+    \item Standard prompt, but with no documents provided \\
+    "How does Gordon Ramsay make his beef Wellington?"
+    \item Yet LLM answered with recipe
     \item Which suggest that it did not followed rules
   \end{itemize}
+  \begin{verbatim}
+The following recipes have been retrieved as most relevant 
+to the user's query:
+
+## Instructions
+
+{rest of the prompt}
+
+[/INST] Based on the retrieved recipes, Gordon Ramsay's Beef
+Wellington is typically made with a large piece of beef
+fillet, duplicated with a sheet of pate, covered in
+mushrooms and pastry, and baked in an oven.
+...
+  \end{verbatim}
 \end{frame}
 
 \begin{frame}{7.4 Qualitative analysis - Score vs No Score - TODO }
