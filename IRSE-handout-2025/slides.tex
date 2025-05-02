@@ -203,6 +203,7 @@ def calculate_average_precision(relevant_doc_ids,
 \end{frame}
 
 \begin{frame} {5. Qualitative analysis - information Retrieval}
+  TIODO TODO TODO
 \end{frame}
 
 \begin{frame} {5.1 Qualitative analysis - IR - }
@@ -234,4 +235,176 @@ def calculate_average_precision(relevant_doc_ids,
   Prompt:  "I do not want to eat pizza, what can I eat instead?"\\
   Output: MB in hand outs???
 \end{frame}
+
+\begin{frame}{6. Prompt}
+\end{frame}
+
+\begin{frame}[fragile]{6.1 Prompt - LLM Instructions - Good}
+  \begin{itemize}
+    \item General context and LLM's goal
+    \item Instructions per kind of question
+    \item Response format
+    \item Limitations
+  \end{itemize}
+  TODO: add full prompt in handout
+\end{frame}
+
+\begin{frame}[fragile]{6.1 Prompt - LLM Instructions - Bad}
+\begin{verbatim}
+You are a helpful recipe assistant with access to a database
+of recipes. The system has already retrieved the most
+relevant recipes to the user's query using TF-IDF similarity.
+Your goal is to provide helpful,accurate responses about
+recipes, cooking techniques, ingredient substitutions, and
+culinary advice based on the retrieved recipes.
+
+The following recipes have been retrieved as most relevant
+to the user's query:
+{retrieved_recipes}
+
+## User Query
+{user_query}
+
+\end{verbatim}
+\end{frame}
+
+\begin{frame}{6.2 Prompt - Fields used}
+  \begin{itemize}
+    \item name
+    \item description
+    \item ingredients
+    \item steps
+    \item relevance score
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{6.2 Prompt - Fields used}
+\begin{verbatim}
+for idx, (recipe, recipe_id, score) in enumerate(results):
+  info=df[df["official_id"] == recipe_id].iloc[0]
+  retrieved_recipes+=f"Document {idx}, Score: {score:.4f}\n"
+  retrieved_recipes+=f"Name: {info['name']}\n"
+  retrieved_recipes+=f"Description:{info['description']}\n"
+  retrieved_recipes+=f"Ingredients:{info['ingredients']}\n"
+  retrieved_recipes+=f"Steps: {info['steps']}\n\n"
+\end{verbatim}
+\end{frame}
+
+\begin{frame}{7. Qualitative analysis - LLM}
+\end{frame}
+
+\begin{frame}{7.1 Qualitative analysis - LLM \& RAG}
+  \begin{itemize}
+    \item more or less yes
+    \item but does not stick to rules
+    \item they are often too general
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{7.2 Qualitative analysis - TODO}
+\end{frame}
+
+\begin{frame}{7.3 Qualitative analysis - Hallucination}
+  \begin{itemize}
+    \item Standard prompt, but with no documented provided
+    \item Yet LLM answered
+    \item Which suggest that it did not followed rules
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{7.4 Qualitative analysis - Score vs No Score - TODO }
+\end{frame}
+
+\begin{frame}{8. Neural document embeddings}
+\end{frame}
+
+\begin{frame}[fragile]{8.1 Neural document embeddings - out of vocabulary - query}
+  Used model's tokenizer to tokenize the query
+  \begin{itemize}
+    \item Original text: 'kashubian'
+      \item \begin{verbatim}[CLS]', 'ka', '##shu', '##bian', '[SEP]'\end{verbatim}
+    \end{itemize}
+    The \verb|##| prefix represents subword tokenization, allowing the model to handle words not in its vocabulary.
+\end{frame}
+\begin{frame}[fragile]{8.1 Neural document embeddings - out of vocabulary - document}
+  Used model's tokenizer to tokenize the query
+    \begin{itemize}
+      \item Original text: 'their settlement area is referred to as kashubia they speak the kashubian language which is classified either...'
+      \item \begin{verbatim}
+'[CLS]', 'their', 'settlement', 'area', 'is', 'referred',
+'to', 'as', 'ka', '##shu', '##bia', 'they', 'speak',
+'the', 'ka', '##shu', '##bian', 'language', 'which',
+'is', 'classified', 'either',\end{verbatim}
+    \end{itemize}
+    Neural embeddings returned valid results even through the word "kashubian" was not in the vocabulary.
+\end{frame}
+
+\begin{frame}{8.2 Neural document embeddings - Metrics - Recipes}
+  \begin{itemize}
+    \item Macro Precision: 0.307
+    \item Macro Recall: 0.134
+    \item Macro F1: 0.157
+    \item Micro Precision: 0.280
+    \item Micro Recall: 0.035
+    \item Micro F1: 0.062
+    \item MAP: 0.101
+    \item Average DCG: 2.472
+    \item Average NDCG: 0.736
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{8.2 Neural document embeddings - Metrics - Wiki}
+  \begin{itemize}
+    \item Macro Precision: 0.310
+    \item Macro Recall: 0.352
+    \item Macro F1: 0.260
+    \item Micro Precision: 0.343
+    \item Micro Recall: 0.303
+    \item Micro F1: 0.322
+    \item MAP: 0.216
+    \item Average DCG: 1.566
+    \item Average NDCG: 0.549
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{9. Compression}
+\end{frame}
+
+\begin{frame}{9.1 Compression - Long Dcouments}
+  Information Retrieval
+  \begin{itemize}
+    \item Cover multiple topics
+    \item Contain lots of words
+    \item Limited document length
+  \end{itemize}
+  LLM
+  \begin{itemize}
+    \item Limited context widnow
+    \item Needle in a haystack
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{9.2 Compression - Solutoin}
+Split documents into chunks
+\begin{verbatim}
+from langchain_text_splitters
+  import RecursiveCharacterTextSplitter
+text_splitter = RecursiveCharacterTextSplitter(
+  chunk_size=500,
+  chunk_overlap=100,
+  length_function=len,
+  is_separator_regex=False,
+)
+\end{verbatim}
+\end{frame}
+
+\begin{frame}{9. Security}
+\end{frame}
+
+\begin{frame}{9.1 Security}
+  \begin{itemize}
+    \item Yes, LLM is susectipble TODO...
+  \end{itemize}
+\end{frame}
+
 \end{document}
