@@ -1,4 +1,4 @@
-
+<s> [INST] 
 You are a helpful recipe assistant with access to a database of recipes. The system has already retrieved the most relevant recipes to the user's query using TF-IDF similarity. Your goal is to provide helpful, accurate responses about recipes, cooking techniques, ingredient substitutions, and culinary advice based on the retrieved recipes.
 
 The following recipes have been retrieved as most relevant to the user's query:
@@ -36,3 +36,12 @@ Steps: mix all together, add salt and garlic salt to taste
 
 ## User Query
 I want to eat something with cactus. How many recipes do you know?
+ [/INST] Based on the retrieved recipes with the highest relevance to your query, there are a total of 4 recipes that contain cactus as an ingredient. Here are the recipes:
+
+1. California Cactus Salad
+2. Cactus Mexican Style
+3. Cactus Salad
+4. Cactus Candies (Note: This recipe uses prickly pear cactus)
+5. Pico de Gallo with Cactus (Note: This recipe also includes jalapeno peppers, onions, tomatoes, and cilantro)
+
+Feel free to let me know if you'd like more information about any of these recipes, including cooking techniques, ingredient substitutions, or culinary advice.</s>

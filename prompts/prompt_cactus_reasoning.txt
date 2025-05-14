@@ -1,4 +1,4 @@
-
+<s> [INST] 
 
 # Recipe Assistant
 
@@ -77,3 +77,11 @@ Steps: mix all together, add salt and garlic salt to taste
 
 ## User Query
 I want to eat something with cactus. How many recipes do you know?
+ [/INST] Based on the retrieved recipes, I can help you with at least four different recipes that feature cactus as a main ingredient. Here's a brief summary of each:
+
+1. California Cactus Salad: Cactus pieces are sautéed with garlic, then combined with black beans, green onions, cilantro, lime juice, sugar, ground cumin, and dried chipotle powder. Served over lettuce with queso fresco and sour cream.
+2. Cactus Mexican Style: Steamed cactus is Drained, then fried with tomatoes, white onion, jalapeno pepper, and cilantro. Topped with monterey jack cheese before serving.
+3. Cactus Salad: Cactus strips are boiled and then combined with vinegar, lime juice, sun-dried tomatoes, oregano, red onion, queso fresco, and chipotle chiles. Served cool on a platter.
+4. Cactus Candy: Prickly pear cactus is cooked in syrup made from sugar, water, and orange juice, then drained and rolled in granulated sugar.
+
+Each of these recipes offers a unique taste profile, so I recommend you try the one that most appeals to your personal preferences. If you have any specific questions about the recipes or their ingredients, please don't hesitate to ask.</s>

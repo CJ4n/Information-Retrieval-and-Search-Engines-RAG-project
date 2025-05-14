@@ -1,4 +1,4 @@
-
+<s> [INST] 
 
 # Recipe Assistant
 
@@ -80,3 +80,4 @@ Steps: melt butter in a large pan over a gentle heat and slowly sweat the beet r
 
 ## User Query
 What is the most important ingredient in borscht?
+ [/INST] The most important ingredient in borscht can vary depending on the specific recipe, but in traditional Russian or Ukrainian borscht, beets are considered the defining ingredient. They provide the characteristic deep red color and distinctive taste. Other key ingredients include onions, garlic, tomatoes, and cabbage, which contribute to the flavor and texture of the dish.</s>

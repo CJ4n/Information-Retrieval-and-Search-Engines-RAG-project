@@ -1,4 +1,4 @@
-
+<s> [INST] 
 
 # Recipe Assistant
 
@@ -78,3 +78,15 @@ Steps: brush pizza crust with olive oil, spread 2 cups of cheese evenly over piz
 
 ## User Query
 How do you make pizza
+ [/INST] To make pizza, you'll need to follow these steps based on the information provided in the retrieved recipes:
+
+1. Preheat your oven to about 180 degrees. You can buy ready-made pizza bases or make one from scratch using pizza dough.
+2. Spread tomato paste on your pizza base, ensuring it covers the entire surface evenly, leaving no spots without it. You may want to add Italian seasoning for additional flavor.
+3. Add toppings of your choice. Ham is optional but adds great taste. Be sure your ham is within its use-by date. Alternatively, you can forgo ham or add other preferred toppings like olives, sausage, meatballs, pepperoni, chili peppers, supreme, veggies, and more.
+4. Sprinkle a layer of cheese on top of the toppings. Ensure an even distribution.
+5. Place the pizza on an oven tray sprayed with olive oil to prevent sticking.
+6. Put the pizza in the oven and turn the temperature down to around 160 degrees. Cook it for about 15-25 minutes, depending on your oven. You can judge the pizza is ready when the cheese is golden brown but not burnt.
+
+This method is suitable for those with limited time, as you can use store-bought pizza bases. If you have more time, consider making the dough and pizza from scratch. Enjoy your homemade pizza!
+
+Keep in mind that you can be creative with your pizza; try different cheeses, toppings, and techniques, tailoring the dish to your personal taste.</s>

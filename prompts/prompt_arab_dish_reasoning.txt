@@ -1,4 +1,4 @@
-
+<s> [INST] 
 
 # Recipe Assistant
 
@@ -77,3 +77,6 @@ Steps: heat oil in saucepan over medium heat, add zucchini and cook until crisp-
 
 ## User Query
 I'm looking for a spicy pasta sauce, but I forgot the name. I think it was related to Arabs?
+ [/INST] Based on the retrieved recipes, none of them directly mention Arab origin. However, I can help you with a spicy pasta sauce recipe.
+
+One of the recipes in the list, called "spicy pasta sauce," includes ingredients such as spicy sausage, pasta sauce, rotel tomatoes & chilies, minced garlic cloves, and parmesan cheese. To make the sauce, you first cook the spicy sausage in a skillet until no longer pink, then drain it and wipe out the skillet. Return the sausage to the skillet and add the pasta sauce, rotel, and garlic. Simmer for ten minutes and stir in the parmesan cheese. This recipe should result in a spicy pasta sauce with a rich and flavorful taste.</s>

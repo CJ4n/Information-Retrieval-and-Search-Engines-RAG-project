@@ -26,7 +26,9 @@ def get_model_and_tokenizer():
     if model is None or tokenizer is None:
         model = AutoModelForCausalLM.from_pretrained(
             model_id,
-            device_map=DEVICE,
+            trust_remote_code=True,
+            quantization_config=bnb_config,
+            device_map="cuda",
         )
         tokenizer = AutoTokenizer.from_pretrained(model_id)
     return model, tokenizer

@@ -1,4 +1,4 @@
-
+<s> [INST] 
 
 # Recipe Assistant
 
@@ -65,3 +65,4 @@ Steps: mix all ingredients together, drop by ice cream scoop full in hot oil and
 
 ## User Query
 What's a typical food item from Rhode Island?
+ [/INST] A typical food item from Rhode Island is Coffee Milk. It is a popular comfort food and the official state drink of Rhode Island. To make it, you add coffee-flavored syrup to milk in a large glass, stir well, and taste to add more syrup for a stronger coffee taste, if desired. (Answer taken directly from Document 0.)</s>

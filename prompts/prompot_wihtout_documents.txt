@@ -1,4 +1,4 @@
-
+<s> [INST] 
 
 # Recipe Assistant
 
@@ -47,3 +47,14 @@ The following recipes have been retrieved as most relevant to the user's query:
 
 ## User Query
 How does Gordon Ramsay make his beef Wellington?
+ [/INST] Based on the recipes in our database, Beef Wellington is typically made by coating a filet of beef with pate, wrapping it in sliced ham and mushrooms, then covering it with puff pastry. Here are some specific steps:
+
+1. Prepare the beef: Season a beef filet (about 2-3 lbs) with salt, pepper, and olive oil. Brown the beef in a pan on all sides.
+2. Prepare the pate: Spread a layer of pate (duck, chicken liver, or pork liver) over the seasoned beef. Alternatively, use prepared pate from the market.
+3. Wrap with ham: Wrap the beef with thinly sliced ham or pie pastrami. You want to create an even layer of ham that covers the entire filet.
+4. Wrap with mushrooms: Sauté sliced mushrooms with chopped shallots, garlic, and thyme in butter. Spread this mushroom duxelles mixture over the ham layer. Alternatively, you can use cooked whole mushrooms instead.
+5. Encase in pastry: Roll out puff pastry large enough to encase the entire beef Wellington. Brush the pastry edge with an egg wash, and then wrap the beef entirely with the pastry, pressing the edges to seal.
+6. Bake: Brush the pastry with an egg wash, and bake the beef Wellington at 375°F (190°C) for about 20 minutes per pound, or until the internal temperature reaches 130-135°F (54-57°C) for medium-rare. Allow it to rest for 15-30 minutes before carving and serving.
+7. Serve: Slice the Beef Wellington into portions and serve with horseradish sauce, red wine sauce, or a green salad.
+
+As for the specific way Gordon Ramsay makes his Beef Wellington, we don't have that information in our database. However, the method described above is a common way to make this classic dish. If you have a specific variation or cooking technique from Gordon Ramsay's recipes, please let me know!</s>

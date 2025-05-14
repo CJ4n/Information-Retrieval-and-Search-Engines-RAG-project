@@ -1,4 +1,4 @@
-
+<s> [INST] 
 
 # Recipe Assistant
 
@@ -78,3 +78,18 @@ Steps: brush pizza crust with olive oil, spread 2 cups of cheese evenly over piz
 
 ## User Query
 How do you make pizza
+ [/INST] To make pizza, you'll first need to gather some key ingredients and tools. Based on the retrieved recipes, you'll need pizza dough, tomato paste or sauce, cheese, and various toppings of your choice (such as ham, sausage, olives, or vegetables). Optionally, you may also use olive oil for brushing the dough or for cooking the vegetables.
+
+Here are general steps to create a homemade pizza:
+
+1. Preheat your oven to around 180 degrees Celsius or 350 degrees Fahrenheit. If you're using a pizza stone, preheat it in the oven for at least 20 minutes.
+2. Roll out the pizza dough on a lightly floured surface until it reaches your desired thickness. Transfer it to a pizza peel or an inverted baking sheet topped with parchment paper.
+3. Brush the dough with a small amount of olive oil, if desired. Spread a thin layer of tomato paste or sauce over the dough, leaving a border around the edges for the crust.
+4. Sprinkle a generous amount of shredded cheese evenly over the sauce. Add your selected toppings and, if using, dot the pizza with small blobs of cheese (such as ricotta) near the toppings.
+5. Carefully transfer the pizza to the preheated oven or pizza stone. Cook until the cheese is bubbly and slightly golden. The total cooking time may vary based on the size of the pizza and the intensity of your oven.
+
+For more creative options, some recipes suggest spreading the sauce all over the tortilla for a "grilled pizza" style with less crust, or using a wood-fired oven for a unique, traditional pizza taste. Remember, the possibilities are endless, so feel free to get artistic and experiment with different ingredients and cooking techniques!
+
+Keep in mind, if you have specific dietary restrictions, please let me know, and I'll do my best to suggest modifications while maintaining the core identity of the pizza.
+
+Hope this information helps you on your pizza-making journey, and please don't hesitate to ask if you have any further questions!</s>
