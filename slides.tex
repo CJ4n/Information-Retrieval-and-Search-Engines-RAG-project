@@ -2,6 +2,7 @@
 
 \usetheme{Madrid}
 \usecolortheme{default}
+\usepackage{svg}
 
 \title{IRSE Projecet}
 \author{Jan Cichomski (r1026448)}
@@ -16,8 +17,15 @@
 \begin{frame}{Outline}
   \tableofcontents
 \end{frame}
+\begin{frame}{TODOS}
+  \begin{itemize}
+    \item  why have i chose F1 as a metric?
+  \end{itemize}
+\end{frame}
+
 \begin{frame}{1. Architecture}
-  TODO
+  \centering
+  \includesvg[width=0.9\textwidth]{architecture.svg}
 \end{frame}
 
 \begin{frame}{2. Term Vocabulary}
@@ -27,15 +35,15 @@
 \begin{frame}{2.1 Term Vocabulary - Document Preprocessing}
   \begin{itemize}
     \item To lower case
-    \item remove punctuation
-    \item tokenize
-    \item remove english stop words (added custom stop words)
-    \item lammatize
+    \item Remove punctuation
+    \item Tokenize
+    \item Remove english stop words (added custom stop words)
+    \item Lemmatize
   \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{2.1 Temr Vocabulary - Document Preprocessing}
-    \begin{verbatim}
+  \begin{verbatim}
 def preprocess_text(doc):
     doc = doc.translate(str.maketrans("", "",
         string.punctuation)).lower()
@@ -49,7 +57,7 @@ def preprocess_text(doc):
     \end{verbatim}
 \end{frame}
 \begin{frame}[fragile]{2.1 Term Vocabulary - Custom stop words}
-    \begin{verbatim}
+  \begin{verbatim}
 stop_words.update(
     [
         "add",
@@ -70,16 +78,16 @@ stop_words.update(
   Two types of terms:
   \begin{itemize}
     \item 1-grams
-      \begin{itemize}
-        \item min\_df=20
-        \item max\_df=0.5
-      \end{itemize}
+          \begin{itemize}
+            \item min\_df=20
+            \item max\_df=0.5
+          \end{itemize}
     \item 2-grams
-      \begin{itemize}
-        \item 10,000 terms
-        \item min\_df=50
-        \item max\_df=0.4
-      \end{itemize}
+          \begin{itemize}
+            \item 10,000 terms
+            \item min\_df=50
+            \item max\_df=0.4
+          \end{itemize}
   \end{itemize}
 
 \end{frame}
@@ -94,7 +102,7 @@ stop_words.update(
 \end{frame}
 
 \begin{frame}{3.1 Document Embedding - Chosen Fields}
-  I use all fields for embedding:
+  Fields used for embedding:
   \begin{itemize}
     \item name
     \item description
@@ -102,16 +110,20 @@ stop_words.update(
     \item steps
   \end{itemize}
 
+  Evaluated combinations:
   \begin{itemize}
-    \item Tested different combinations
-    \item Make sense as user may ask about any information
+    \item name, description, ingredients, steps: macro F1: 0.126
+    \item description, ingredients, steps: macro F1: 0.095
+    \item description, ingredients: macro F1: 0.034
+    \item description, steps: macro F1: 0.088
+    \item description: macro F1: 0.043
   \end{itemize}
-  TODO: add some data
+
 \end{frame}
 
 \begin{frame}[fragile]{3.2 Document Embedding - Query Preprocessing}
   The same approche as for embedding documents
-    \begin{verbatim}
+  \begin{verbatim}
   def retrieve_documents(query_text, recipies,
                     recipe_ids, k, threshold):
   query = preprocess_text(query_text)
@@ -121,16 +133,16 @@ stop_words.update(
 
 \begin{frame}{3.3 Document Embedding - Edge Cases}
   \begin{itemize}
-    \item Problem: When query has no terms from vocabulary
-      \begin{itemize}
-        \item TF-IDF produces zero vector for the query
-        \item Cosine similarity returns 0 for all documents
-      \end{itemize}
-    \item Consequences:
-      \begin{itemize}
-        \item Without similarity threshold: All documents returned (no filtering)
-        \item With any similarity threshold: No documents returned (empty result)
-      \end{itemize}
+    \item When query has no terms from vocabulary
+          \begin{itemize}
+            \item TF-IDF produces zero vector for the query
+            \item Cosine similarity returns 0 for all documents
+          \end{itemize}
+    \item Consequently:
+          \begin{itemize}
+            \item Without similarity threshold: All documents returned (no filtering)
+            \item With any similarity threshold: No documents returned (empty result)
+          \end{itemize}
   \end{itemize}
 \end{frame}
 
@@ -139,8 +151,8 @@ stop_words.update(
 
 \begin{frame}{4.1 Retrieval - Similarity Measure}
   \begin{itemize}
-    \item Cosine similarity - picked finally
-    \item Euclidean distance
+    \item Cosine similarity (F1: 0.126) - picked finally
+    \item Euclidean distance (F1: 0.064)
   \end{itemize}
 \end{frame}
 
@@ -149,7 +161,7 @@ stop_words.update(
     \item Max number of returned documents: 40
     \item Minimum threshold for cosine similarity: 0.2
   \end{itemize}
-  I used grid search over param space
+  Grid search over param space and maximize macro F1 score.
 
   \begin{verbatim}
 def create_parameter_heatmap(queries, recipes, recipe_ids):
@@ -157,6 +169,11 @@ def create_parameter_heatmap(queries, recipes, recipe_ids):
   k_values = np.arange(20, 60, 5)
   \end{verbatim}
 
+\end{frame}
+
+\begin{frame}
+  \centering
+  \includegraphics[width=0.9\textwidth]{ir_parameter_heatmap1747239585.png}
 \end{frame}
 
 \begin{frame}{4.3 Retrieval - Evaluation Metrics}
@@ -202,55 +219,76 @@ def calculate_average_precision(relevant_doc_ids,
   \end{verbatim}
 \end{frame}
 
-\begin{frame} {5. Qualitative analysis - information Retrieval}
+\begin{frame} {5. Qualitative analysis - Information Retrieval}
   TIODO TODO TODO
 \end{frame}
 
-\begin{frame} {5.1 Qualitative analysis - IR - }
-  Problem: Even though there is no relevant information in the document, the system returns somed documents\\
+\begin{frame} {5.1 Qualitative analysis - Information Retrieval}
+  Problem: Even though there is no relevant information in the document, the system returns some documents\\
   Prompt: "Where can I follow cooking classes"\\
-  Output: MB in hand outs???
+  Output: cinnamon roll glaze taste facs class (0.2410), grandma jayne shrimp dip (0.2369)
 \end{frame}
 
-\begin{frame} {5.2 Qualitative analysis - IR - }
+\begin{frame} {5.2 Qualitative analysis - Information Retrieval}
   Problem: Ignores context of entities in query\\
   Prompt: "How does Gordon Ramsay make his beef Wellington?"\\
-  Output: MB in hand outs???
+  Output: Non of the results were about Ramsay making beef wellington
+  \begin{table}[]
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+      \hline
+      \textbf{ID} & \textbf{Score} & \textbf{Words Contained} & \textbf{Words Not Contained} \\ \hline
+      94359       & 0.2972         & ramsay, gordon           & beef, wellington             \\ \hline
+      94358       & 0.2502         & ramsay, gordon           & beef, wellington             \\ \hline
+      111233      & 0.2448         & beef, wellington         & ramsay, gordon               \\ \hline
+      163842      & 0.2439         & beef, wellington         & ramsay, gordon               \\ \hline
+      94347       & 0.2207         & ramsay, gordon           & beef, wellington             \\ \hline
+      100473      & 0.2146         & beef, wellington         & ramsay, gordon               \\ \hline
+      126542      & 0.2086         & beef, wellington         & ramsay, gordon               \\ \hline
+      94354       & 0.2069         & ramsay, gordon, beef     & wellington                   \\ \hline
+      170428      & 0.2032         & ramsay, gordon           & beef, wellington             \\ \hline
+      94353       & 0.2029         & ramsay, gordon           & beef, wellington             \\ \hline
+    \end{tabular}
+  \end{table}
 \end{frame}
 
-\begin{frame} {5.3 Qualitative analysis - IR - }
+\begin{frame} {5.3 Qualitative analysis - Information Retrieval}
   Problem: Can't handle extermalyl rare words, like "Paraguay"\\
   Prompt: "Do you know any soups from Paraguay?"\\
-  Output: MB in hand outs???
+  Output: Did not returned any recipe with word "paraguay"
 \end{frame}
 
-\begin{frame} {5.4 Qualitative analysis - IR - }
+\begin{frame} {5.4 Qualitative analysis - Information Retrieval}
   Problem: TF-IDF doesn't handle typos\\
   Prompt: "How do you make \textbf{piza}"\\
-  Output: MB in hand outs???
+  Output: Returned single recipe what contains a lot of words "make", but no "pizza"
 \end{frame}
 
-\begin{frame} {5.5 Qualitative analysis - IR - }
+\begin{frame} {5.5 Qualitative analysis - Information Retrieval}
   Problem: Can't capture negation\\
   Prompt:  "I do not want to eat pizza, what can I eat instead?"\\
-  Output: MB in hand outs???
+  Output: 36/40 results were about pizza % and they are about making pizza
 \end{frame}
 
 \begin{frame}{6. Prompt}
+  Model: mistralai/Mistral-7B-Instruct-v0.2
 \end{frame}
 
 \begin{frame}[fragile]{6.1 Prompt - LLM Instructions - Good}
   \begin{itemize}
     \item General context and LLM's goal
-    \item Instructions per kind of question
+    \item Instructions per type of question
     \item Response format
     \item Limitations
   \end{itemize}
+
+  See handout for full prompt
   TODO: add full prompt in handout
 \end{frame}
 
 \begin{frame}[fragile]{6.1 Prompt - LLM Instructions - Bad}
-\begin{verbatim}
+  Only general context without specific instructions how to answer the question
+  \begin{verbatim}
 You are a helpful recipe assistant with access to a database
 of recipes. The system has already retrieved the most
 relevant recipes to the user's query using TF-IDF similarity.
@@ -264,7 +302,6 @@ to the user's query:
 
 ## User Query
 {user_query}
-
 \end{verbatim}
 \end{frame}
 
@@ -279,7 +316,10 @@ to the user's query:
 \end{frame}
 
 \begin{frame}[fragile]{6.2 Prompt - Fields used}
-\begin{verbatim}
+  \begin{verbatim}
+results = retrieve_documents(query, recipies, recipe_ids, k=k, threshold=threshold)
+retrieved_recipes = ""
+
 for idx, (recipe, recipe_id, score) in enumerate(results):
   info=df[df["official_id"] == recipe_id].iloc[0]
   retrieved_recipes+=f"Document {idx}, Score: {score:.4f}\n"
@@ -287,7 +327,11 @@ for idx, (recipe, recipe_id, score) in enumerate(results):
   retrieved_recipes+=f"Description:{info['description']}\n"
   retrieved_recipes+=f"Ingredients:{info['ingredients']}\n"
   retrieved_recipes+=f"Steps: {info['steps']}\n\n"
-\end{verbatim}
+
+prompt = prompt_template.format(
+  retrieved_recipes=retrieved_recipes, user_query=query
+)
+  \end{verbatim}
 \end{frame}
 
 \begin{frame}{7. Qualitative analysis - LLM}
@@ -295,24 +339,44 @@ for idx, (recipe, recipe_id, score) in enumerate(results):
 
 \begin{frame}{7.1 Qualitative analysis - LLM \& RAG}
   \begin{itemize}
-    \item more or less yes
-    \item but does not stick to rules
-    \item they are often too general
+    \item More or less yes
+    \item But does not stick to rules
+    \item Response are often too general
   \end{itemize}
 \end{frame}
 
-\begin{frame}{7.2 Qualitative analysis - TODO}
+% DONE UP TO HERE
+\begin{frame}{7.2 Qualitative analysis - LLM Reasoning 1}
+  Q: "I'm looking for a spicy pasta sauce, but I forgot the name. I think it was related to Arabs?"
+  TODO
 \end{frame}
+
+\begin{frame}{7.2 Qualitative analysis - LLM Reasoning 2}
+  TODO
+\end{frame}
+
+\begin{frame}{7.2 Qualitative analysis - LLM Reasoning 3}
+  TODO
+\end{frame}
+
+\begin{frame}{7.2 Qualitative analysis - LLM Reasoning 4}
+  TODO
+\end{frame}
+
+\begin{frame}{7.2 Qualitative analysis - LLM Reasoning 5}
+  TODO
+\end{frame}
+
 
 \begin{frame}[fragile]{7.3 Qualitative analysis - Hallucination}
   \begin{itemize}
     \item Standard prompt, but with no documents provided \\
-    "How does Gordon Ramsay make his beef Wellington?"
+          "How does Gordon Ramsay make his beef Wellington?"
     \item Yet LLM answered with recipe
     \item Which suggest that it did not followed rules
   \end{itemize}
   \begin{verbatim}
-The following recipes have been retrieved as most relevant 
+The following recipes have been retrieved as most relevant
 to the user's query:
 
 ## Instructions
@@ -337,21 +401,21 @@ mushrooms and pastry, and baked in an oven.
   Used model's tokenizer to tokenize the query
   \begin{itemize}
     \item Original text: 'kashubian'
-      \item \begin{verbatim}[CLS]', 'ka', '##shu', '##bian', '[SEP]'\end{verbatim}
-    \end{itemize}
-    The \verb|##| prefix represents subword tokenization, allowing the model to handle words not in its vocabulary.
+    \item \begin{verbatim}[CLS]', 'ka', '##shu', '##bian', '[SEP]'\end{verbatim}
+  \end{itemize}
+  The \verb|##| prefix represents subword tokenization, allowing the model to handle words not in its vocabulary.
 \end{frame}
 \begin{frame}[fragile]{8.1 Neural document embeddings - out of vocabulary - document}
   Used model's tokenizer to tokenize the query
-    \begin{itemize}
-      \item Original text: 'their settlement area is referred to as kashubia they speak the kashubian language which is classified either...'
-      \item \begin{verbatim}
+  \begin{itemize}
+    \item Original text: 'their settlement area is referred to as kashubia they speak the kashubian language which is classified either...'
+    \item \begin{verbatim}
 '[CLS]', 'their', 'settlement', 'area', 'is', 'referred',
 'to', 'as', 'ka', '##shu', '##bia', 'they', 'speak',
 'the', 'ka', '##shu', '##bian', 'language', 'which',
 'is', 'classified', 'either',\end{verbatim}
-    \end{itemize}
-    Neural embeddings returned valid results even through the word "kashubian" was not in the vocabulary.
+  \end{itemize}
+  Neural embeddings returned valid results even through the word "kashubian" was not in the vocabulary.
 \end{frame}
 
 \begin{frame}{8.2 Neural document embeddings - Metrics - Recipes}
@@ -400,8 +464,8 @@ mushrooms and pastry, and baked in an oven.
 \end{frame}
 
 \begin{frame}[fragile]{9.2 Compression - Solutoin}
-Split documents into chunks
-\begin{verbatim}
+  Split documents into chunks
+  \begin{verbatim}
 from langchain_text_splitters
   import RecursiveCharacterTextSplitter
 text_splitter = RecursiveCharacterTextSplitter(

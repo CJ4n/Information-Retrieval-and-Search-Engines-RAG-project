@@ -38,3 +38,20 @@ IRSE-handout-2025/slides.toc
 wiki_embeddings.npy
 IRSE-handout-2025/slides.vrb
 wiki_chunks_embeddings.npy
+
+
+slides.aux
+slides.fdb_latexmk
+slides.fls
+slides.log
+slides.nav
+slides.out
+slides.snm
+slides.toc
+slides.vrb
+Untitled Diagram.drawio
+vectorizer_bi.pkl
+vectorizer_uni.pkl
+X_bi.pkl
+X_uni.pkl
+slides.synctex.gz

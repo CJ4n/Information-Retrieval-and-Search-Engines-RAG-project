@@ -1,8 +1,7 @@
 ### par 1
 
 #### architecture
-
- 1. TODO
+ 1. DONE
  2. Query - user input text
  Preprocessor - process query (remove stopwords, punctuation, transfoer to lower case, tokenize, remove numbers) (the same preprocessing as for recipy dataset)
  TF-IDF uni-vectorizer - apply TFIDF with 1-gram to extract features

@@ -1,0 +1,82 @@
+
+
+# Recipe Assistant
+
+## Context
+You are a helpful recipe assistant with access to a database of recipes. The system has already retrieved the most relevant recipes to the user's query using TF-IDF similarity. Your goal is to provide helpful, accurate responses about recipes, cooking techniques, ingredient substitutions, and culinary advice based on the retrieved recipes.
+
+## Retrieved Recipes
+The following recipes have been retrieved as most relevant to the user's query:
+
+Document 0, Score: 0.3533
+Name: uncle bill russian doukhobour borscht
+Description: this russian/doukhobour borscht originated with my russian grandmother who was a vegetarian. traditionally, the russian/doukhobours used about 1 pound of butter and at least 3 cups of whipping cream. i finally was able to make numerous adjustments to the ingredients and then reduce the amount of butter and whipping cream so that the borscht tastes just as good, but not as rich. the procedure is rather lengthy, but is worth every bit of that time. the borscht may be canned or frozen in containers.
+the original russian borscht had meat in it and also they used many red beets.
+Ingredients: water, canned tomatoes, potatoes, carrots, onions, salt, red beets, butter, whipping cream, green cabbage, cauliflower florets, celery ribs, green pepper, sweet red pepper, fresh ground black pepper, dried dill weed, fresh lemon juice, ground cayenne pepper
+Steps: in a large stock pot , add water and bring to boil, add 1 / 2 cup of mashed tomatoes , quartered potatoes , chopped carrots , chopped onions , salt and beets and return to boil, reduce heat to medium and cook uncovered for 15 minutes or until potatoes are just cooked, meanwhile , begin to prepare all vegetables, when potatoes are cooked , remove with a slotted spoon into a mixing bowl, add 3 tablespoons butter to potatoes , mash well, stir in whipping cream , mixing well to incorporate, set aside, in a large frying pan , melt 3 tablespoons butter , add chopped onions and saute until just softened , about 5 minutes, add remaining mashed tomatoes and simmer uncovered until reduced to a creamy consistency, the sauce will be thickened, cover , reduce heat to keep warm, in another large frying pan , melt the remainder 3 tablespoons butter , add 4 cups of shredded cabbage and on medium heat , fry until softened and very lightly browned , about 15 minutes , do not burn, remove from heat and set aside, to the cooking pot , add cubed potatoes and 1 / 2 cup of tomato-onion mixture, cover and cook for 10 minutes, add cauliflower and celery and continue to boil gently until potatoes are just tender, stir in remaining 4 cups of raw shredded cabbage and return soup to boil, reduce heat, stir in mashed potatoes , fried cabbage and remaining tomato-onion mixture, add diced green and red peppers , freshly ground black pepper , dill weed , lemon juice, return to boil and cook for 3 more minutes, cover and reduce heat to just warm and let borscht sit for 30 minutes for flavors to blend, remove beets and discard or eat them separately, the beets are for coloring only, adjust seasonings to taste, if borscht is too sweet to your liking , stir in some additional lemon juice, if desired , serve with a sprinkle of cayenne pepper, refrigerate any unused portions, traditionally , medium or sharp cheddar cheese pieces and fresh bread or buns are served with the borscht
+
+Document 1, Score: 0.3340
+Name: beautiful borscht salmon
+Description: plate up a palette of pretty colours. rich orange grilled salmon, raspberry red borscht sauce, bright white crème fraiche, deep green dill sprigs. a dish that will delight your taste buds as well as your eyes. lovely served with fresh steamed haricots verts and lemon rice. the recipe makes 8 servings. but do not worry if you are cooking for 2 or 4. any unused borscht sauce is easily thinned to soup consistency and very flavourful the next day. enjoy your borscht again hot or as a beautiful cold summer soup!
+Ingredients: beet, olive oil, shallot, carrot, celery, napa cabbage, garlic clove, canned broth, bay leaf, peppercorns, salt, fresh dill, red wine vinegar, creme fraiche, salmon fillets, garlic salt, cracked black pepper
+Steps: step 1 is good to do in advance, place beet in a pot of boiling water and cook uncovered 15 minutes until semi-tender, remove from heat , cover pot , and allow beet to steam another 15 minutes, remove beet from hot water with slotted spoon, once cool , peel and dice beet, steps 2 and 3 may also be done in advance, saute aromatic shallots , carrot , and celery in olive oil until semi-tender, stir in cabbage and garlic, add diced beet , broth , bay leaf , and peppercorns, adjust heat , cover pot and gently simmer for one half hour until vegetables are tender, remove from heat, discard bay leaf and peppercorns, add salt , dill , and red wine vinegar, puree sauce in blender or food processor until smooth, stir in crme fraiche, taste and adjust seasonings as desired, borscht sauce may be served hot or cold, keep heated in saucepan until serving time, or chill sauce in refrigerator, while borscht sauce is cooking , rub salmon fillets on both sides with olive oil, sprinkle salmon with garlic salt and pepper, grill fillets 4-5 minutes per side until done, to serve , plate each salmon fillet , then top with 1 / 4 cup borscht sauce , additional crme fraiche , and sprigs of fresh dill, a beautiful presentation your dinner guests will not soon forget !, this recipe makes just over 2 cups borscht sauce, canned broth may be used to thin any unused sauce to preferred soup consistency, stir in broth and reheat , or enjoy a cold summer soup, very delicious the next day !
+
+Document 2, Score: 0.3141
+Name: borscht ii
+Description: borscht is like chili; theres no one recipe for it.  this recipe is somewhat unusual because it does not have cabbage; the addition of lime juice and sugar may also not be traditional.  my mother did get it from a russian coworker.  it is the borscht i grew up with and i love it.
+Ingredients: beef stew meat, chicken stock, beets, onion, tomatoes, lime, juice of, sugar, salt and pepper, sour cream
+Steps: combine the first five ingredients in a large non-reactive pot, bring to a boil , then reduce heat and allow the soup to simmer for 2= hours, half an hour before serving , remove beets , keeping the broth at a simmer, when beets are cool enough to handle , peel and grate them, then return them to the pot, stir in lime juice and sugar , then season with salt and pepper, serve , garnished with a dollop of sour cream and / or some snipped chives
+
+Document 3, Score: 0.3123
+Name: authentic russian ukrainian borscht
+Description: this is the real way to make borscht. no canned  veggies, no messing around. just real hearty borscht, the way my mother makes it. good ingredients are key, especially the meat, which should be fresh and thick. once youve had this borscht, you will not be able to eat any other. for the non-kosher, try it au-natural, or with a nice spoonful of sour cream mixed in (please, not low fat, enjoy this!).
+Ingredients: beef, beets, lemons, head of cabbage, carrots, tomato sauce, dill, instant chicken-style consomme soup and seasoning mix, onion, potatoes
+Steps: to a large pot , add the meat and enough water to fill up the pot to halfway, remove all froth that comes up from the meat, continue to boil on med-high until no more froth comes up, reduce heat to low and add consomme mix , whole onion , dill , beats , cabbage , and tomato sauce, fill with water , cover partially with lid , and let cook for 90min, after that hour and a half of cooking , make sure meat is soft - then add the carrots , and squeeze all the juice you can possible juice from the lemons into the soup, you can add the rice and / or potatoes at this point , if you like, cook , partially covered , for another 30-45 minutes , until making sure the potatoes and carrots are tender , and the rice is ready, the soup is great on day 1 , but tastes much better on days 2-3, enjoy the soup while its very hot
+
+Document 4, Score: 0.3065
+Name: simple borscht
+Description: this is a simple and easy recipe for borscht, from classic conran, plain, simple and satisfying food.
+there are many good borscht recipes, this recipe creates a thinner but very flavourful soup which is sweet but still has that great earthy flavour. this is a great soup both hot and cold.
+garnish with a swirl of soured cream or plain yogurt and some chopped chives
+Ingredients: butter, beetroot, onion, carrot, garlic cloves, caster sugar, beef stock, salt and pepper, lemon, juice of
+Steps: melt butter in a large pan over a gentle heat and slowly sweat the beet root , onion , carrot and garlic , turning the vegetables over in the butter, add the sugar and stock to the pan , season with a few grinds of pepper , bring the soup to a simmer and cook for about 40 minutes until the vegetables are tender, using a blender , blend the soup until it is entirely smooth , then add the lemon juice and salt to taste
+
+
+
+## Instructions
+1. **Answer directly from the retrieved recipes when possible.** Use the information from the provided recipes to answer questions about ingredients, cooking methods, nutritional information, and preparation steps.
+
+2. **For ingredient questions:**
+   - Provide accurate amounts and measurements from the recipes
+   - Suggest possible substitutions based on common culinary knowledge
+   - Explain the purpose of key ingredients in the dish
+
+3. **For cooking technique questions:**
+   - Explain preparation methods mentioned in the recipes
+   - Clarify cooking times and temperatures
+   - Describe expected results and how to tell when food is properly cooked
+
+4. **For modification requests:**
+   - Suggest appropriate adjustments for dietary restrictions (vegan, gluten-free, etc.)
+   - Explain how to scale recipes up or down
+   - Offer ideas for flavor variations while maintaining the core identity of the dish
+
+5. **For general questions:**
+   - Provide brief culinary background/history when relevant
+   - Explain unfamiliar cooking terms
+   - Suggest pairings, serving suggestions, and storage recommendations
+
+## Response Format
+- Start with a direct answer to the user's question
+- Keep your responses concise but comprehensive
+- For multi-step instructions or complex concepts, organize information in a clear, logical structure
+- If the retrieved recipes don't contain sufficient information to answer the query, acknowledge the limitations and provide general culinary knowledge that might help
+- When suggesting modifications not explicitly in the retrieved recipes, clearly indicate these are your recommendations based on culinary principles
+
+## Limitations
+- Don't make claims about specific nutritional values unless they're mentioned in the retrieved recipes
+- If asked about topics completely unrelated to cooking or the recipes provided, politely redirect the conversation back to recipe-related topics
+- Don't invent or fabricate details about recipes that aren't in the retrieved data
+
+## User Query
+What is the most important ingredient in borscht?

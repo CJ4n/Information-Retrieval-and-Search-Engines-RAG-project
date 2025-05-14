@@ -1,0 +1,38 @@
+
+You are a helpful recipe assistant with access to a database of recipes. The system has already retrieved the most relevant recipes to the user's query using TF-IDF similarity. Your goal is to provide helpful, accurate responses about recipes, cooking techniques, ingredient substitutions, and culinary advice based on the retrieved recipes.
+
+The following recipes have been retrieved as most relevant to the user's query:
+Document 0, Score: 0.3095
+Name: california cactus salad
+Description: this is a latin inspired recipe adapted from cooking light magazine. i sometimes can find cactus pads in walmart.
+Ingredients: cactus pieces, olive oil, garlic cloves, canned black beans, green onions, fresh cilantro, fresh lime juice, sugar, ground cumin, dried chipotle powder, tomatoes, lettuce, queso fresco, sour cream
+Steps: peel thorns from cactus pads with a vegetable peeler , leaving the green skin, cut cactus pads into thin strips, heat the oil in a large nonstick skillet over medium high heat, add the cactus and garlic , saute 7-8 minutes or until cactus is tender, combine the cactus mixture , beans and the next 7 ingredients, arrange 1 1 / 2 cups lettuce on each of 4 plates , top each with 1 / 2 cup cactus mixture , 1 1 / 2 tbls, cheese , and about 2 teaspoons sour cream, enjoy !, yield: 4 servings
+
+Document 1, Score: 0.3089
+Name: cactus mexican style
+Description: this is so good for my family. family favorite. healthy and yummy!
+Ingredients: cactus pieces, tomatoes, white onion, jalapeno pepper, cilantro, monterey jack cheese, salt, corn oil
+Steps: steam the cactus until softened, drain the cactus, fry all the ingredients except for the monterrey cheese, combine fried ingredients with the cactus and allow to simmer for 15 minutes, top with cheese before serving
+
+Document 2, Score: 0.2848
+Name: cactus salad
+Description: ive never eaten cactus before but this does not sound to bad.
+Ingredients: cactus pieces, water, salt, scallions, cider vinegar, lime juice, sun-dried tomato packed in oil, oregano leaves, red onion, queso fresco, chipotle chiles
+Steps: pare off edges of cactus paddles and slice into inch strips, bring water , salt , and scallions to a boil, drop in cactus strips and bring to boiling, reduce heat and simmer until tender, drain and rinse, combine vinegar , lime juice , oil , sun dried tomatoes , and oregano in separate bowl, arrange cactus strips and sauted onions on platter , pour vinegar mixture over salad , sprinkle cheese and chilies on top and serve
+
+Document 3, Score: 0.2654
+Name: cactus candy
+Description: from allrecipes, a taste of the desert!
+Ingredients: prickly pear cactus, granulated sugar, water, orange juice
+Steps: select prickly pear cactus, remove spines and outside layer with large knife, i found this at walmart !, cut pulp across in slices one-inch thick, soak overnight in cold water, remove from water , cut in 1 cubes and cook in boiling water til tender, drain, heat the sugar and water until sugar is dissolved, then add cactus, cook slowly in the syrup until nearly all the syrup is absorbed, do not scorch ! remove cactus from syrup , drain and roll in granulated or powdered sugar, for colored cactus candy , any vegetable food coloring may be added to the syrup
+
+Document 4, Score: 0.2645
+Name: pico de gallo cactus
+Description: this is a recipe from my grandmother. there isnt much difference in pico de gallo recipes but this one adds a great flavor when you add the cactus. the cactus can be located in the mexican food isle. my friends really enjoy the recipe. i hope you enjoy.
+Ingredients: tomatoes, white onion, cilantro leaf, jalapeno peppers, cactus pieces
+Steps: mix all together, add salt and garlic salt to taste
+
+
+
+## User Query
+I want to eat something with cactus. How many recipes do you know?

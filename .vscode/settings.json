@@ -2,5 +2,17 @@
     "errorLens.enabled": false,
     "python.analysis.typeCheckingMode": "off",
     "latex-workshop.linting.chktex.enabled": true,
-    "latex-workshop.formatting.latex": "tex-fmt",
+    "latex-workshop.formatting.latex": "latexindent",
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit",
+            "source.addMissingImports": "explicit",
+            "source.autoImportCompletions": "explicit",
+            "source.unusedImports": "explicit",
+            "source.convertImportFormat": "explicit"
+        },
+    },
 }
