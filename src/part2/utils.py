@@ -59,7 +59,7 @@ def queryDatasetToQueryJson(queries: Dataset) -> dict:
 
 
 def get_model_and_tokenizer():
-    model = SentenceTransformer("all-MiniLM-L6-v2", device="cuda")
+    model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
     cpu_model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
     tokenizer = model.tokenizer
     return model, cpu_model, tokenizer
@@ -165,11 +165,11 @@ def get_documents_data_part_1():
     )
 
     recipe_ids = cooking_dataset["official_id"]
-    return recipies_cooking, recipe_ids
+    return recipies_cooking, recipe_ids, df
 
 
 def load_data_part_1(cpu_model):
     queries_data = json.load(open("./irse_queries_2025_recipes.json", "r"))
     queries = get_queries_data(queries_data, cpu_model)
-    recipies_cooking, recipe_ids = get_documents_data_part_1()
-    return queries, recipies_cooking, recipe_ids
+    recipies_cooking, recipe_ids, df = get_documents_data_part_1()
+    return queries, recipies_cooking, recipe_ids, df

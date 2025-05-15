@@ -3,8 +3,8 @@ import transformers
 from huggingface_hub import login
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
+from part2.retrieve import retrieve_documents
 from prompts import *
-from retrieve import retrieve_documents
 
 login(token="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")
 DEVICE = "cpu"
@@ -28,7 +28,7 @@ def get_model_and_tokenizer():
             model_id,
             trust_remote_code=True,
             quantization_config=bnb_config,
-            device_map="cuda",
+            device_map="cpu",
         )
         tokenizer = AutoTokenizer.from_pretrained(model_id)
     return model, tokenizer
@@ -47,9 +47,24 @@ def generate_response(prompt):
 
 
 def prepare_prompt(
-    query, prompt_template, df, recipies, recipe_ids, k=5, threshold=None
+    query_embeddings,
+    recipe_embeddings,
+    query,
+    df,
+    prompt_template,
+    recipies,
+    recipe_ids,
+    k=5,
+    threshold=None,
 ):
-    results = retrieve_documents(query, recipies, recipe_ids, k=k, threshold=threshold)
+    results = retrieve_documents(
+        query_embeddings=query_embeddings,
+        recipe_embeddings=recipe_embeddings,
+        recipe_texts=recipies,
+        recipe_ids=recipe_ids,
+        k=k,
+        threshold=threshold,
+    )
     retrieved_recipes = ""
 
     for idx, (recipe, recipe_id, score) in enumerate(results):
@@ -60,12 +75,12 @@ def prepare_prompt(
         retrieved_recipes += f"Ingredients: {recipe_info['ingredients']}\n"
         retrieved_recipes += f"Steps: {recipe_info['steps']}\n\n"
 
-        print(f"Document {idx}")
-        print(f"Name: {recipe_info['name']}")
-        print(f"Description: {recipe_info['description']}")
-        print(f"Ingredients: {recipe_info['ingredients']}")
-        print(f"Steps: {recipe_info['steps']}\n")
-        print(f"Score: {score:.4f}\n")
+        # print(f"Document {idx}")
+        # print(f"Name: {recipe_info['name']}")
+        # print(f"Description: {recipe_info['description']}")
+        # print(f"Ingredients: {recipe_info['ingredients']}")
+        # print(f"Steps: {recipe_info['steps']}\n")
+        # print(f"Score: {score:.4f}\n")
 
     prompt = prompt_template.format(
         retrieved_recipes=retrieved_recipes, user_query=query
