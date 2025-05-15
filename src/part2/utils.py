@@ -59,7 +59,7 @@ def queryDatasetToQueryJson(queries: Dataset) -> dict:
 
 
 def get_model_and_tokenizer():
-    model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
+    model = SentenceTransformer("all-MiniLM-L6-v2", device="cuda")
     cpu_model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
     tokenizer = model.tokenizer
     return model, cpu_model, tokenizer
@@ -90,7 +90,21 @@ def embed_documents_part_2(model, documents):
     return wiki_embeddings
 
 
-def get_queries_data_part2(queries_data, cpu_model):
+def embed_documents_part_1(model, documents):
+    if os.path.exists("part1_embeddings.npy"):
+        embeddings = np.load("part1_embeddings.npy")
+    else:
+        embeddings = model.encode(
+            documents,
+            batch_size=32,
+            show_progress_bar=True,
+            convert_to_numpy=True,
+        )
+        np.save("part1_embeddings.npy", embeddings)
+    return embeddings
+
+
+def get_queries_data(queries_data, cpu_model):
     queries = pd.DataFrame(columns=["q", "r"])
     for query_item in queries_data["queries"]:
         query_text = query_item["q"]
@@ -122,12 +136,12 @@ def load_data_part2(cpu_model):
     test_queries = queryDatasetToQueryJson(queries["test"])
     train_queries = queryDatasetToQueryJson(queries["train"])
     validation_queries = queryDatasetToQueryJson(queries["validation"])
-    train_queries = get_queries_data_part2(train_queries, cpu_model)
-    validation_queries = get_queries_data_part2(validation_queries, cpu_model)
-    test_queries = get_queries_data_part2(test_queries, cpu_model)
-    print("Train queries: ", len(train_queries["queries"]))
-    print("Validation queries: ", len(validation_queries["queries"]))
-    print("Test queries: ", len(test_queries["queries"]))
+    train_queries = get_queries_data(train_queries, cpu_model)
+    validation_queries = get_queries_data(validation_queries, cpu_model)
+    test_queries = get_queries_data(test_queries, cpu_model)
+    print("Train queries: ", len(train_queries["q"]))
+    print("Validation queries: ", len(validation_queries["q"]))
+    print("Test queries: ", len(test_queries["q"]))
     document_id_to_idx = {d["doc_id"]: idx for idx, d in enumerate(documents)}
     return (
         documents,
@@ -136,34 +150,6 @@ def load_data_part2(cpu_model):
         validation_queries,
         document_id_to_idx,
     )
-
-
-def get_queries_data_part_1(cpu_model):
-    queries_data = json.load(open("./irse_queries_2025_recipes.json", "r"))
-    queries = pd.DataFrame(columns=["q", "r"])
-    for query_item in queries_data["queries"]:
-        query_text = query_item["q"]
-        relevance_pairs = query_item["r"]
-        queries = pd.concat(
-            [
-                queries,
-                pd.DataFrame({"q": [query_text], "r": [relevance_pairs]}),
-            ],
-            ignore_index=True,
-        )
-
-    embeddings = cpu_model.encode(
-        queries["q"],
-        batch_size=32,
-        show_progress_bar=True,
-        convert_to_numpy=True,
-        normalize_embeddings=True,
-        num_workers=0,
-    )
-
-    queries["embeddings"] = list(embeddings)
-
-    return queries
 
 
 def get_documents_data_part_1():
@@ -183,6 +169,7 @@ def get_documents_data_part_1():
 
 
 def load_data_part_1(cpu_model):
-    queries = get_queries_data_part_1(cpu_model)
+    queries_data = json.load(open("./irse_queries_2025_recipes.json", "r"))
+    queries = get_queries_data(queries_data, cpu_model)
     recipies_cooking, recipe_ids = get_documents_data_part_1()
     return queries, recipies_cooking, recipe_ids

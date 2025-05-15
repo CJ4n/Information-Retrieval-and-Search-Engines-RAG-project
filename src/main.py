@@ -16,11 +16,12 @@ from part2.evaluate import evaluate_ir_system as evaluate_ir_system_part2
 from part2.retrieve import retrieve_documents as retrieve_documents_part2
 from part2.utils import (
     check_tokenization,
+    embed_documents_part_1,
     embed_documents_part_2,
     get_documents_data_part_1,
     get_model_and_tokenizer,
-    get_queries_data_part_1,
     load_data_part2,
+    load_data_part_1,
 )
 from prompts import *
 from retrieve import *
@@ -262,12 +263,12 @@ def experiment_parameter_search_with_embeddings_recipies():
     print("Running experiment to find best hyperparams with embeddings for part 1 data")
     print("#########################")
     model, cpu_model, tokenizer = get_model_and_tokenizer()
-    recipies_cooking, recipe_ids = get_documents_data_part_1()
-    queries = get_queries_data_part_1(cpu_model)
+    queries, recipies_cooking, recipe_ids = get_documents_data_part_1()
+    embeddings = embed_documents_part_1(model, recipies_cooking)
     create_parameter_heatmap_part2(
         queries=queries,
         recipes=recipies_cooking,
-        recipes_embeddings=queries["embeddings"],
+        recipes_embeddings=embeddings,
         recipe_ids=recipe_ids,
         thresholds=np.arange(0.3, 0.60, 0.05),
         k_values=np.arange(4, 20, 4),
@@ -279,12 +280,12 @@ def experiment_metrics_with_embeddings_recipies_data():
     print("Running experiment to calculate metrics with embeddings for part 1 data")
     print("#########################")
     model, cpu_model, tokenizer = get_model_and_tokenizer()
-    queries_cooking = get_queries_data_part_1(cpu_model)
 
-    recipies_cooking, recipe_ids = get_documents_data_part_1()
+    queries, recipies_cooking, recipe_ids = load_data_part_1(cpu_model)
+    embeddings = embed_documents_part_1(model, recipies_cooking)
     evaluation_results_cooking = evaluate_ir_system_part2(
-        queries=queries_cooking,
-        recipe_embeddings=queries_cooking["embeddings"],
+        queries=queries,
+        recipe_embeddings=embeddings,
         recipies=recipies_cooking,
         recipe_ids=recipe_ids,
         k=BEST_K_EMBEDDINGS,
