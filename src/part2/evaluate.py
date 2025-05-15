@@ -86,7 +86,7 @@ def evaluate_combination(
 
 
 def create_parameter_heatmap(
-    queries, recipes, recipes_embeddings, recipe_ids, thresholds, k_values
+    queries, recipes, recipes_embeddings, recipe_ids, thresholds, k_values, file_name
 ):
     total_combinations = len(k_values) * len(thresholds)
     f1_matrix = np.zeros((len(k_values), len(thresholds)))
@@ -133,7 +133,7 @@ def create_parameter_heatmap(
     plt.xlabel("Threshold")
     plt.ylabel("k")
     plt.tight_layout()
-    plt.savefig(f"embeddings_wiki_ir_parameter_heatmap{int(time.time())}.png", dpi=300)
+    plt.savefig(f"{file_name}_{int(time.time())}.png", dpi=300)
     # plt.show()
 
     best_i, best_j = np.unravel_index(f1_matrix.argmax(), f1_matrix.shape)

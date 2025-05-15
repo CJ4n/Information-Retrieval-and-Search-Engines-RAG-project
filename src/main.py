@@ -256,6 +256,7 @@ def experiment_parameter_search_with_embeddings_wiki():
         recipe_ids=documents["doc_id"],
         thresholds=np.arange(0.3, 0.60, 0.05),
         k_values=np.arange(4, 20, 4),
+        file_name="wiki_embeddings_heatmap.png",
     )
 
 
@@ -273,6 +274,7 @@ def experiment_parameter_search_with_embeddings_recipies():
         recipe_ids=recipe_ids,
         thresholds=np.arange(0.3, 0.60, 0.05),
         k_values=np.arange(4, 20, 4),
+        file_name="recipies_embeddings_heatmap.png",
     )
 
 
@@ -339,13 +341,13 @@ def experiment_compression():
             num_workers=0,
         )
         np.save("wiki_chunks_embeddings.npy", wiki_chunks_embeddings)
-    evaluation_results_cooking = evaluate_ir_system(
+    evaluation_results_cooking = evaluate_ir_system_part2(
         queries=validation_queries,
         recipe_embeddings=wiki_chunks_embeddings,
         recipies=chunks,
-        recipe_ids=chunks["doc_id"],
-        k=12,
-        threshold=0.45,
+        recipe_ids=[chunk["doc_id"] for chunk in chunks],
+        k=BEST_K_EMBEDDINGS_RECIPIES,
+        threshold=BEST_THRESHOLD_EMBEDDINGS_RECIPIES,
     )
     print(evaluation_results_cooking)
 
@@ -404,9 +406,9 @@ if __name__ == "__main__":
     # experiment_run_all_prompt_generation()
     # experiment_embedding_out_of_vocabulary()
     # experiment_tokenization()
-    # experiment_parameter_search_with_embeddings_wiki()
+    # experiment_parameter_search_with_embeddings_wiki() # TO RUN
     # experiment_parameter_search_with_embeddings_recipies()
-    # experiment_metrics_with_embeddings_wiki_data()
-    # experiment_metrics_with_embeddings_recipies_data()
+    # experiment_metrics_with_embeddings_wiki_data() # TO RUN
+    # experiment_metrics_with_embeddings_recipies_data() # TO RUN
     experiment_compression()
     # experiment_adversarial_attack()

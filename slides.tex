@@ -448,6 +448,12 @@ this classic dish....
   Neural embeddings returned valid results even through the word "kashubian" was not in the vocabulary.
 \end{frame}
 
+
+\begin{frame}{8.2 Neural document embeddings - nDCG}
+  TODO
+\end{frame}
+
+
 \begin{frame}{8.2 Neural document embeddings - hyperparams - Wiki}
   TODO again
   Grid search over param space and wiki dataset
@@ -527,7 +533,7 @@ this classic dish....
   \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{9.2 Compression - Solutoin - TODO evalute it}
+\begin{frame}[fragile]{9.2 Compression - Solutoin}
   Split documents into chunks
   \begin{verbatim}
 from langchain_text_splitters
@@ -540,6 +546,24 @@ text_splitter = RecursiveCharacterTextSplitter(
 )
 \end{verbatim}
 \end{frame}
+
+\begin{frame}
+  \begin{frame}{9.2 Compression - Solution - Evaluation - Recipies}
+    The evaluation results for the compression solution are as follows:
+    \begin{itemize}
+      \item Macro Precision: 0.203
+      \item Macro Recall: 0.133
+      \item Macro F1: 0.136
+      \item Micro Precision: 0.207
+      \item Micro Recall: 0.038
+      \item Micro F1: 0.064
+      \item MAP: 0.154
+      \item Average DCG: 3.294
+      \item Average NDCG: 0.650
+    \end{itemize}
+  \end{frame}
+\end{frame}
+
 
 \begin{frame}{9. Security}
 \end{frame}
