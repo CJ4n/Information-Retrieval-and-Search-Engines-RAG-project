@@ -344,57 +344,87 @@ prompt = prompt_template.format(
     \item Response are often too general
   \end{itemize}
 \end{frame}
-
-% DONE UP TO HERE
+% TODO: idea do a prompt to count all stuff accros  given kind or recipce so it coutns proeucts acress all retrieved recipes
 \begin{frame}{7.2 Qualitative analysis - LLM Reasoning 1}
-  Q: "I'm looking for a spicy pasta sauce, but I forgot the name. I think it was related to Arabs?"
-  TODO
+  TODO: add to handout
+  Q: ``I'm looking for a spicy pasta sauce, but I forgot the name. I think it was related to Arabs?``\\
+  A: ``Based on the retrieved recipes, none of them directly mention Arab origin. However, I can help you with a spicy pasta sauce recipe.\\
+
+  One of the recipes in the list, called "spicy pasta sauce," includes ingredients such as spicy sausage, pasta sauce, rotel tomatoes \& chilies,
+  minced garlic cloves, and parmesan cheese. To make the sauce, you first cook the spicy sausage in a skillet until no longer pink,
+  then drain it and wipe out the skillet. Return the sausage to the skillet and add the pasta sauce, rotel, and garlic.
+  Simmer for ten minutes and stir in the parmesan cheese. This recipe should result in a spicy pasta sauce with a rich and flavorful taste.``
 \end{frame}
 
 \begin{frame}{7.2 Qualitative analysis - LLM Reasoning 2}
-  TODO
+  TOOD: add to handout
+  Q: ``I want to eat something with cactus. How many recipes do you know?``\\
+  A: ``Based on the retrieved recipes, I can help you with at least four different recipes that feature cactus as a main ingredient. Here's a brief summary of each:\\
+  \ldots \\
+  Each of these recipes offers a unique taste profile, so I recommend you try the one that most appeals to your personal preferences. If you have any specific questions about the recipes or their ingredients, please don't hesitate to ask.``
 \end{frame}
 
 \begin{frame}{7.2 Qualitative analysis - LLM Reasoning 3}
-  TODO
+  TODO: add to handout
+  Q: ``Give me some ideas for pasta dishes that contain calamari.``\\
+  A: ``Based on the retrieved recipes, I suggest trying the following pasta dishes that include calamari:\\
+  1. **Sunday Night Pastaa with Calamari:** \ldots\\
+  2. **Calamari Marinara:** \ldots\\
+
+  These are our suggestions for pasta dishes with calamari based on the provided recipes. Let me know if you have any further questions or need more details!
+
+  If you have dietary restrictions or want to modify the dishes in specific ways, please let me know, and I'll do my best to suggest appropriate adjustments.``
 \end{frame}
 
 \begin{frame}{7.2 Qualitative analysis - LLM Reasoning 4}
-  TODO
+  Q: ``What temperature should I bake chicken Wellington at?``\\
+  A: ``The recommended baking temperature for chicken Wellington from the provided recipes is 375 degrees
+  for 25 minutes. However, it's important to ensure that the internal temperature of the chicken reaches 165°F (74°C)
+  before serving to ensure it is thoroughly cooked. You can use a meat thermometer to check.``
 \end{frame}
 
 \begin{frame}{7.2 Qualitative analysis - LLM Reasoning 5}
-  TODO
+  TODO: add to handout
+  Q: ``What's a typical food item from Rhode Island?``\\
+  A: ``A typical food item from Rhode Island is Coffee Milk. It is a popular comfort food and the
+  official state drink of Rhode Island. To make it, you add coffee-flavored syrup to milk in a large glass,
+  stir well, and taste to add more syrup for a stronger coffee taste, if desired. (Answer taken directly from Document 0.)``
 \end{frame}
+% TODO: these propts are not good, they do not  realyl show reasoning in my opiont
 
-
+% DONE UP TO HERE
 \begin{frame}[fragile]{7.3 Qualitative analysis - Hallucination}
+  TODO: add to handout
   \begin{itemize}
     \item Standard prompt, but with no documents provided \\
           "How does Gordon Ramsay make his beef Wellington?"
-    \item Yet LLM answered with recipe
+    \item Yet LLM answered with recipe claiming they come from our database
     \item Which suggest that it did not followed rules
+    \item Though at the end it says that it does not have that information in our database
+          about Gordon Ramsay's recipe
   \end{itemize}
   \begin{verbatim}
-The following recipes have been retrieved as most relevant
-to the user's query:
-
-## Instructions
-
-{rest of the prompt}
-
-[/INST] Based on the retrieved recipes, Gordon Ramsay's Beef
-Wellington is typically made with a large piece of beef
-fillet, duplicated with a sheet of pate, covered in
-mushrooms and pastry, and baked in an oven.
-...
+Based on the recipes in our database, Beef Wellington is 
+typically made by coating a filet of beef with pate,
+wrapping it in sliced ham and mushrooms, then covering 
+it with puff pastry. Here are some specific steps:
+1. Prepare the beef: ...   7. Serve: ...
+As for the specific way Gordon Ramsay makes his Beef Wellington,
+we don't have that information in our database.
+However, the method described above is a common way to make
+this classic dish....
   \end{verbatim}
 \end{frame}
 
-\begin{frame}{7.4 Qualitative analysis - Score vs No Score - TODO }
+\begin{frame}{7.4 Qualitative analysis - Score vs No Score}
+  \begin{itemize}
+    \item No particular difference
+    \item For LLM answers look at the handout
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{8. Neural document embeddings}
+  Model: all-MiniLM-L6-v2
 \end{frame}
 
 \begin{frame}[fragile]{8.1 Neural document embeddings - out of vocabulary - query}
@@ -418,21 +448,24 @@ mushrooms and pastry, and baked in an oven.
   Neural embeddings returned valid results even through the word "kashubian" was not in the vocabulary.
 \end{frame}
 
-\begin{frame}{8.2 Neural document embeddings - Metrics - Recipes}
+% TODO write sth about datasets 
+\begin{frame}{8.2 Neural document embeddings - hyperparams}
+  Grid search over param space and wiki dataset
   \begin{itemize}
-    \item Macro Precision: 0.307
-    \item Macro Recall: 0.134
-    \item Macro F1: 0.157
-    \item Micro Precision: 0.280
-    \item Micro Recall: 0.035
-    \item Micro F1: 0.062
-    \item MAP: 0.101
-    \item Average DCG: 2.472
-    \item Average NDCG: 0.736
+    \item thresholds=np.arange(0.3, 0.60, 0.05),
+    \item k\_values=np.arange(4, 20, 4),
   \end{itemize}
 \end{frame}
 
+\begin{frame}
+  \centering
+  \includegraphics[width=0.9\textwidth]{embeddings_wiki_ir_parameter_heatmap1747308450.png}
+\end{frame}
+
+
+
 \begin{frame}{8.2 Neural document embeddings - Metrics - Wiki}
+  K=8, threshold=0.40
   \begin{itemize}
     \item Macro Precision: 0.310
     \item Macro Recall: 0.352
@@ -443,6 +476,21 @@ mushrooms and pastry, and baked in an oven.
     \item MAP: 0.216
     \item Average DCG: 1.566
     \item Average NDCG: 0.549
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{8.2 Neural document embeddings - Metrics - Recipes}
+  K=8, threshold=0.40
+  \begin{itemize}
+    \item Macro Precision: 0.333
+    \item Macro Recall: 0.288
+    \item Macro F1: 0.245
+    \item Micro Precision: 0.366
+    \item Micro Recall: 0.232
+    \item Micro F1: 0.284
+    \item MAP: 0.192
+    \item Average DCG: 1.353
+    \item Average NDCG: 0.565
   \end{itemize}
 \end{frame}
 

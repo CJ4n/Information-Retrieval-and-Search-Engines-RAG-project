@@ -4,6 +4,48 @@ from evaluation import *
 from retrieve import *
 
 
+def calculate_dcg(relevance_scores, retrieved_doc_ids):
+    dcg = 0.0
+    # use only retrieved documents
+    for i, doc_id in enumerate(retrieved_doc_ids):
+        k = i + 1
+        rel_score = relevance_scores.get(doc_id, 0)
+
+        gain = (2**rel_score) - 1
+        discount = np.log2(k + 1)
+
+        dcg += gain / discount
+
+    return dcg
+
+
+def calculate_idcg(relevance_scores, retrieved_doc_ids):
+    # get only the relevance scores of the retrieved documents
+    rel_scores = [relevance_scores.get(doc_id, 0) for doc_id in retrieved_doc_ids]
+    sorted_rel_scores = sorted(rel_scores, reverse=True)
+
+    idcg = 0.0
+    for i, rel_score in enumerate(sorted_rel_scores):
+        k = i + 1
+
+        gain = (2**rel_score) - 1
+        discount = np.log2(k + 1)
+
+        idcg += gain / discount
+
+    return idcg
+
+
+def calculate_ndcg(relevance_scores, retrieved_doc_ids):
+    dcg = calculate_dcg(relevance_scores, retrieved_doc_ids)
+    idcg = calculate_idcg(relevance_scores, retrieved_doc_ids)
+
+    if idcg == 0:
+        return 0.0
+
+    return dcg / idcg
+
+
 def calculate_average_precision(relevant_doc_ids, retrieved_doc_ids):
     hit_count = 0
     sum_precisions = 0.0
@@ -12,7 +54,6 @@ def calculate_average_precision(relevant_doc_ids, retrieved_doc_ids):
             hit_count += 1
             precision_at_i = hit_count / (i + 1)
             sum_precisions += precision_at_i
-        # else: sum_precisions += 0.0
 
     if len(relevant_doc_ids) == 0:
         return 0.0

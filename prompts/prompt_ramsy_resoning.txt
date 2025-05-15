@@ -79,4 +79,6 @@ Steps: make mushroom onion filling: melt butter or margarine in skillet and saut
 
 ## User Query
 What temperature should I bake chicken Wellington at?
- [/INST] The recommended baking temperature for chicken Wellington from the provided recipes is 375 degrees for 25 minutes. However, it's important to ensure that the internal temperature of the chicken reaches 165°F (74°C) before serving to ensure it is thoroughly cooked. You can use a meat thermometer to check.</s>
+ [/INST] The recommended baking temperature for chicken Wellington from the provided recipes is 375 degrees 
+ for 25 minutes. However, it's important to ensure that the internal temperature of the chicken reaches 165°F (74°C) 
+ before serving to ensure it is thoroughly cooked. You can use a meat thermometer to check.</s>

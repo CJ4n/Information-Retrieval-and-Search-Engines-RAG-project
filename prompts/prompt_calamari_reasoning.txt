@@ -79,9 +79,14 @@ Steps: cut calamari into small strips, place in saucepan and cook over medium he
 Give me some ideas for pasta dishes that contain calamari.
  [/INST] Based on the retrieved recipes, I suggest trying the following pasta dishes that include calamari:
 
-1. **Sunday Night Pastaa with Calamari:** This dish is a simple yet delicious combination of pasta, calamari, tomatoes, garlic, olive oil, and parmesan cheese. Here's a brief summary of the steps from the recipe for this dish: Cook the pasta in salted water until desired doneness. Sauté garlic in olive oil, then add cooked pasta, tomatoes, and pepperoni. Toss the pasta with the garlic and olive oil, then add calamari and tomatoes. Drizzle with more olive oil and garnish with parmesan cheese.
+1. **Sunday Night Pastaa with Calamari:** This dish is a simple yet delicious combination of pasta, calamari, 
+tomatoes, garlic, olive oil, and parmesan cheese. Here's a brief summary of the steps from the recipe for this dish:
+ Cook the pasta in salted water until desired doneness. Sauté garlic in olive oil, then add cooked pasta, tomatoes, 
+ and pepperoni. Toss the pasta with the garlic and olive oil, then add calamari and tomatoes. Drizzle with more olive oil and garnish with parmesan cheese.
 
-2. **Calamari Marinara:** In this dish, calamari is cooked in a tomato sauce. To make it, cut calamari into small strips and cook it with oil, garlic, crushed red pepper flakes, and tomato sauce. Let it simmer until the flavors meld together. Serve over cooked rice or noodles.
+2. **Calamari Marinara:** In this dish, calamari is cooked in a tomato sauce. To make it, cut calamari into small strips
+ and cook it with oil, garlic, crushed red pepper flakes, and tomato sauce. Let it simmer until the flavors meld together.
+  Serve over cooked rice or noodles.
 
 These are our suggestions for pasta dishes with calamari based on the provided recipes. Let me know if you have any further questions or need more details!
 

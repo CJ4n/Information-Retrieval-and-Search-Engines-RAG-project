@@ -11,6 +11,17 @@ from tqdm import tqdm
 from evaluation import *
 from llm import *
 from metrics import *
+from part2.evaluate import create_parameter_heatmap as create_parameter_heatmap_part2
+from part2.evaluate import evaluate_ir_system as evaluate_ir_system_part2
+from part2.retrieve import retrieve_documents as retrieve_documents_part2
+from part2.utils import (
+    check_tokenization,
+    embed_documents_part_2,
+    get_documents_data_part_1,
+    get_model_and_tokenizer,
+    get_queries_data_part_1,
+    load_data_part2,
+)
 from prompts import *
 from retrieve import *
 from utils import *
@@ -24,69 +35,12 @@ nltk.download("punkt")
 nltk.download("stopwords")
 nltk.download("punkt_tab")
 nltk.download("wordnet")
-DEBUG = False
+# DEBUG = False
 
-
-# vocab_uni = vec_uni.get_feature_names_out()
-# idf_values_uni = vec_uni.idf_
-
-# sorted_terms_uni = sorted(
-#     list(zip(vocab_uni, idf_values_uni)), key=lambda x: x[1], reverse=True
-# )
-
-# sorted_terms_uni
-
-
-# vocab_bi = vec_bi.get_feature_names_out()
-# idf_values_bi = vec_bi.idf_
-
-# sorted_terms_bi = sorted(
-#     list(zip(vocab_bi, idf_values_bi)), key=lambda x: x[1], reverse=True
-# )
-# sorted_terms_bi
-
-
-# chosen using grid search over hyper params space
-
-
-# retrieve_documents(
-#     query_text="",
-#     recipies=recipies,
-#     recipe_ids=recipe_ids,
-#     k=best_K,
-#     threshold=None,
-#     vec_uni=vec_uni,
-#     vec_bi=vec_bi,
-#     X_uni=X_uni,
-#     X_bi=X_bi,
-# )
-# metrics = evaluate_ir_system(
-#     queries=queries,
-#     recipies=recipies,
-#     recipe_ids=recipe_ids,
-#     k=best_K,
-#     threshold=best_threshold,
-#     vec_uni=vec_uni,
-#     vec_bi=vec_bi,
-#     X_uni=X_uni,
-#     X_bi=X_bi,
-# )
-
-# metrics
-
-
-# test_queries = [
-#     "Where can I follow cooking classes",  # should not return anything, but retursn -> it's very hard to cut off noisy data using thresholds, as sometimes irrelvant documents have hihger score, then relevant ones for different queries ->
-#     "How does Gordon Ramsay make his beef Wellington?",  # found things wiht gordron ramsey or beef wellington, but nothing with noth -> ignores context
-#     "Do you know any soups from Paraguay?",  # "Paragya" appears in only two documents, so it's extremally rare, since I require term to appear in more then 20 documents, it does not appear in TF_IDF so it's ignored -> TF-IDF ignores very rare terms
-#     "How do you make piza",  # does not handle types -> problem with 'synonyms'
-#     "I do not want to eat pizza, what can I eat instead?",  # -> did not capture negation
-# ]
-
-
-# print_query(test_queries[3], recipies, recipe_ids, best_K, best_threshold)
-
-# query = "I want to eat something with cactus. How many recipes do you know?"
+BEST_K_EMBEDDINGS = 8
+BEST_THRESHOLD_EMBEDDINGS = 0.40
+BEST_K_TFIDF = 40
+BEST_THRESHOLD_TFIDF = 0.45
 
 
 def evaluate_combination(combination, df, queries_data, K, threshold):
@@ -105,8 +59,6 @@ def experiment_which_fields_are_important():
     print("#########################")
 
     df, queries_data = load_data()
-    K = 40
-    threshold = 0.2
     combinations = [
         ["name", "description", "ingredients", "steps"],
         ["description", "ingredients", "steps"],
@@ -116,7 +68,11 @@ def experiment_which_fields_are_important():
     ]
 
     func = partial(
-        evaluate_combination, df=df, queries_data=queries_data, K=K, threshold=threshold
+        evaluate_combination,
+        df=df,
+        queries_data=queries_data,
+        K=BEST_K_TFIDF,
+        threshold=BEST_THRESHOLD_TFIDF,
     )
 
     with Pool(5) as pool:
@@ -176,8 +132,6 @@ def experiment_calculate_metrics():
     print("#########################")
 
     df, queries_data = load_data()
-    best_K = 40
-    best_threshold = 0.2
     recipies, recipe_ids, queries = preprocess_data(df, queries_data)
     recipies = preprocess_recipes(recipies)
     vec_uni, vec_bi, X_uni, X_bi = get_vectorizers(recipies)
@@ -185,8 +139,8 @@ def experiment_calculate_metrics():
         queries=queries,
         recipies=recipies,
         recipe_ids=recipe_ids,
-        k=best_K,
-        threshold=best_threshold,
+        k=BEST_K_TFIDF,
+        threshold=BEST_THRESHOLD_TFIDF,
         vec_uni=vec_uni,
         vec_bi=vec_bi,
         X_uni=X_uni,
@@ -201,8 +155,6 @@ def experiment_drawbacks_of_tfidf():
     print("#########################")
 
     df, queries_data = load_data()
-    best_K = 40
-    best_threshold = 0.2
     recipies, recipe_ids, queries = preprocess_data(df, queries_data)
     recipies = preprocess_recipes(recipies)
     vec_uni, vec_bi, X_uni, X_bi = get_vectorizers(recipies)
@@ -221,8 +173,8 @@ def experiment_drawbacks_of_tfidf():
             recipies=recipies,
             recipe_ids=recipe_ids,
             df=df,
-            best_K=best_K,
-            best_threshold=best_threshold,
+            best_K=BEST_K_TFIDF,
+            best_threshold=BEST_THRESHOLD_TFIDF,
             vec_uni=vec_uni,
             vec_bi=vec_bi,
             X_uni=X_uni,
@@ -231,9 +183,128 @@ def experiment_drawbacks_of_tfidf():
         print("-" * 100)
 
 
+def experiment_tokenization():
+    _, _, tokenizer = get_model_and_tokenizer()
+    check_tokenization(
+        "their settlement area is referred to as kashubia they speak the kashubian language which is classified either as a separate language closely related to polish or as a polish dialect analogously to their linguistic classification the kashubs are considered either an ethnic or a linguistic community the kashubs are closely related to the poles the kashubs are grouped with the slovincians as pomeranians similarly the slovincian now extinct and kashubian languages are grouped as pomeranian languages with slovincian also known as eba kashubian either a distinct language closely related to kashubian or a kashubian dialect among larger cities gdynia gdini contains the largest proportion of people declaring kashubian origin however the biggest city of the kashubia region is gda sk gdu sk the capital of the pomeranian voivodeship between 80 3 and 93 9 of the people in towns such as linia sierakowice szemud kartuzy chmielno ukowo etc are of kashubian descent the traditional occupations of the kashubs have been agriculture and fishing these have been joined by the service and hospitality industries as well as agrotourism the main organization that maintains the kashubian identity is the kashubian pomeranian association the recently formed odroda is also dedicated to the renewal",
+        tokenizer,
+    )
+    check_tokenization("kashubian", tokenizer)
+
+
+def experiment_embedding_out_of_vocabulary():
+    print("#########################")
+    print("Running experiment to find out of vocabulary words")
+    print("#########################")
+    documents, test_queries, train_queries, validation_queries, document_id_to_idx = (
+        load_data_part2()
+    )
+    model, cpu_model, tokenizer = get_model_and_tokenizer()
+    wiki_embeddings = embed_documents_part_2(model, documents)
+
+    query_embedding = cpu_model.encode("kashubian")
+    results = retrieve_documents_part2(
+        query_embeddings=[query_embedding],
+        recipe_embeddings=wiki_embeddings,
+        recipe_texts=documents["doc_text"],
+        recipe_ids=documents["doc_id"],
+        k=5,
+        threshold=None,
+    )
+    print(results)
+
+
+def experiment_metrics_with_embeddings_wiki_data():
+    print("#########################")
+    print("Running experiment to calculate metrics with embeddings for wiki data")
+    print("#########################")
+    model, cpu_model, tokenizer = get_model_and_tokenizer()
+    documents, test_queries, train_queries, validation_queries, document_id_to_idx = (
+        load_data_part2(cpu_model)
+    )
+    wiki_embeddings = embed_documents_part_2(model, documents)
+
+    evaluation_results_wiki = evaluate_ir_system_part2(
+        queries=validation_queries,
+        recipe_embeddings=wiki_embeddings,
+        recipies=documents["doc_text"],
+        recipe_ids=documents["doc_id"],
+        k=BEST_K_EMBEDDINGS,
+        threshold=BEST_THRESHOLD_EMBEDDINGS,
+    )
+    print(evaluation_results_wiki)
+    print("DCG Metrics:")
+    print(f"Average DCG: {evaluation_results_wiki['avg_dcg']:.4f}")
+    print(f"Average NDCG: {evaluation_results_wiki['avg_ndcg']:.4f}")
+
+
+def experiment_parameter_search_with_embeddings_wiki():
+    print("#########################")
+    print("Running experiment to find best hyperparams with embeddings for wiki data")
+    print("#########################")
+    model, cpu_model, tokenizer = get_model_and_tokenizer()
+    documents, test_queries, train_queries, validation_queries, document_id_to_idx = (
+        load_data_part2(cpu_model)
+    )
+    wiki_embeddings = embed_documents_part_2(model, documents)
+    create_parameter_heatmap_part2(
+        queries=validation_queries,
+        recipes=documents["doc_text"],
+        recipes_embeddings=wiki_embeddings,
+        recipe_ids=documents["doc_id"],
+        thresholds=np.arange(0.3, 0.60, 0.05),
+        k_values=np.arange(4, 20, 4),
+    )
+
+
+def experiment_parameter_search_with_embeddings_recipies():
+    print("#########################")
+    print("Running experiment to find best hyperparams with embeddings for part 1 data")
+    print("#########################")
+    model, cpu_model, tokenizer = get_model_and_tokenizer()
+    recipies_cooking, recipe_ids = get_documents_data_part_1()
+    queries = get_queries_data_part_1(cpu_model)
+    create_parameter_heatmap_part2(
+        queries=queries,
+        recipes=recipies_cooking,
+        recipes_embeddings=queries["embeddings"],
+        recipe_ids=recipe_ids,
+        thresholds=np.arange(0.3, 0.60, 0.05),
+        k_values=np.arange(4, 20, 4),
+    )
+
+
+def experiment_metrics_with_embeddings_recipies_data():
+    print("#########################")
+    print("Running experiment to calculate metrics with embeddings for part 1 data")
+    print("#########################")
+    model, cpu_model, tokenizer = get_model_and_tokenizer()
+    queries_cooking = get_queries_data_part_1(cpu_model)
+
+    recipies_cooking, recipe_ids = get_documents_data_part_1()
+    evaluation_results_cooking = evaluate_ir_system_part2(
+        queries=queries_cooking,
+        recipe_embeddings=queries_cooking["embeddings"],
+        recipies=recipies_cooking,
+        recipe_ids=recipe_ids,
+        k=BEST_K_EMBEDDINGS,
+        threshold=BEST_THRESHOLD_EMBEDDINGS,
+    )
+    print(evaluation_results_cooking)
+    print("DCG Metrics:")
+    print(f"Average DCG: {evaluation_results_cooking['avg_dcg']:.4f}")
+    print(f"Average NDCG: {evaluation_results_cooking['avg_ndcg']:.4f}")
+
+
 if __name__ == "__main__":
     # experiment_which_fields_are_important()
     # experiment_find_best_hyperparams()
     # experiment_calculate_metrics()
     # experiment_drawbacks_of_tfidf()
-    experiment_run_all_prompt_generation()
+    # experiment_run_all_prompt_generation()
+    # experiment_embedding_out_of_vocabulary()
+    # experiment_tokenization()
+    # experiment_parameter_search_with_embeddings_wiki()
+    # experiment_parameter_search_with_embeddings_recipies()
+    experiment_metrics_with_embeddings_wiki_data()
+    experiment_metrics_with_embeddings_recipies_data()
