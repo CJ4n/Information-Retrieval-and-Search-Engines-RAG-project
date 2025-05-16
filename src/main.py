@@ -406,9 +406,9 @@ if __name__ == "__main__":
     # experiment_run_all_prompt_generation()
     # experiment_embedding_out_of_vocabulary()
     # experiment_tokenization()
-    # experiment_parameter_search_with_embeddings_wiki() # TO RUN
+    # experiment_parameter_search_with_embeddings_wiki()
     # experiment_parameter_search_with_embeddings_recipies()
-    # experiment_metrics_with_embeddings_wiki_data() # TO RUN
-    # experiment_metrics_with_embeddings_recipies_data() # TO RUN
-    experiment_compression()
+    experiment_metrics_with_embeddings_wiki_data()  # TO RUN
+    experiment_metrics_with_embeddings_recipies_data()  # TO RUN
+    # experiment_compression()
     # experiment_adversarial_attack()

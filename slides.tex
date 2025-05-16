@@ -3,7 +3,7 @@
 \usetheme{Madrid}
 \usecolortheme{default}
 \usepackage{svg}
-
+\usepackage{makecell}
 \title{IRSE Projecet}
 \author{Jan Cichomski (r1026448)}
 \date{\today}
@@ -465,24 +465,22 @@ this classic dish....
 
 \begin{frame}
   \centering
-  % \includegraphics[width=0.9\textwidth]{TODO}
+  \includegraphics[width=0.9\textwidth]{wiki_embeddings_heatmap.png_1747347453.png}
 \end{frame}
 
 
-
 \begin{frame}{8.2 Neural document embeddings - Metrics - Wiki}
-  TODO
   K=8, threshold=0.40
   \begin{itemize}
-    \item Macro Precision: 0.310
-    \item Macro Recall: 0.352
-    \item Macro F1: 0.260
-    \item Micro Precision: 0.343
-    \item Micro Recall: 0.303
-    \item Micro F1: 0.322
-    \item MAP: 0.216
-    \item Average DCG: 1.566
-    \item Average NDCG: 0.549
+    \item Macro Precision: 0.247
+    \item Macro Recall: 0.142
+    \item Macro F1: 0.158
+    \item Micro Precision: 0.250
+    \item Micro Recall: 0.037
+    \item Micro F1: 0.064
+    \item MAP: 0.106
+    \item Average DCG: 2.523
+    \item Average NDCG: 0.748
   \end{itemize}
 \end{frame}
 
@@ -496,24 +494,30 @@ this classic dish....
 
 \begin{frame}
   \centering
-  \includegraphics[width=0.9\textwidth]{heatmap_embedding_recipe.png}
+  \includegraphics[width=0.9\textwidth]{recipies_embeddings_heatmap.png_1747347706.png}
 \end{frame}
 
 
 \begin{frame}{8.2 Neural document embeddings - Metrics - Recipes}
-  TODO
-  K=8, threshold=0.40
-  \begin{itemize}
-    \item Macro Precision: 0.333
-    \item Macro Recall: 0.288
-    \item Macro F1: 0.245
-    \item Micro Precision: 0.366
-    \item Micro Recall: 0.232
-    \item Micro F1: 0.284
-    \item MAP: 0.192
-    \item Average DCG: 1.353
-    \item Average NDCG: 0.565
-  \end{itemize}
+  \begin{table}
+    \centering
+    \begin{tabular}{|l|c|c|}
+      \hline
+      Metric          & \makecell{Embedding         \\K=12, threshold=0.45} & TF-IDF \\
+      \hline
+      Macro Precision & 0.310               & 0.130 \\
+      Macro Recall    & 0.352               & 0.201 \\
+      Macro F1        & 0.260               & 0.126 \\
+      Micro Precision & 0.343               & 0.128 \\
+      Micro Recall    & 0.303               & 0.191 \\
+      Micro F1        & 0.322               & 0.153 \\
+      MAP             & 0.216               & -     \\
+      Average DCG     & 1.566               & -     \\
+      Average NDCG    & 0.549               & -     \\
+      \hline
+    \end{tabular}
+    % \caption{Comparison of metrics for K=12, threshold=0.45 and TF-IDF}
+  \end{table}
 \end{frame}
 
 \begin{frame}{9. Compression}
@@ -547,21 +551,19 @@ text_splitter = RecursiveCharacterTextSplitter(
 \end{verbatim}
 \end{frame}
 
-\begin{frame}
-  \begin{frame}{9.2 Compression - Solution - Evaluation - Recipies}
-    The evaluation results for the compression solution are as follows:
-    \begin{itemize}
-      \item Macro Precision: 0.203
-      \item Macro Recall: 0.133
-      \item Macro F1: 0.136
-      \item Micro Precision: 0.207
-      \item Micro Recall: 0.038
-      \item Micro F1: 0.064
-      \item MAP: 0.154
-      \item Average DCG: 3.294
-      \item Average NDCG: 0.650
-    \end{itemize}
-  \end{frame}
+\begin{frame}{9.2 Compression - Solution - Evaluation - Recipies}
+  The evaluation results for the compression solution are as follows:
+  \begin{itemize}
+    \item Macro Precision: 0.203
+    \item Macro Recall: 0.133
+    \item Macro F1: 0.136
+    \item Micro Precision: 0.207
+    \item Micro Recall: 0.038
+    \item Micro F1: 0.064
+    \item MAP: 0.154
+    \item Average DCG: 3.294
+    \item Average NDCG: 0.650
+  \end{itemize}
 \end{frame}
 
 
