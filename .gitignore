@@ -55,3 +55,5 @@ vectorizer_uni.pkl
 X_bi.pkl
 X_uni.pkl
 slides.synctex.gz
+*.zip
+part1_embeddings.npy
