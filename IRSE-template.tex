@@ -9,23 +9,73 @@
 \begin{document}
 \author{Jan Cichomski (r1026448)}
 \timespent{45h}{20h}
+\tableofcontents
 
 \twocolumn[\maketitle]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{\LaTeX{} syntax for floats}
-Figures and tables will stay in one column with \verb|\begin{figure}| and \verb|\begin{table}| and you can allow them to stretch across both columns with \verb|\begin{figure*}| and \verb|\begin{table*}|.
+% \section{\LaTeX{} syntax for floats}
+% Figures and tables will stay in one column with \verb|\begin{figure}| and \verb|\begin{table}| and you can allow them to stretch across both columns with \verb|\begin{figure*}| and \verb|\begin{table*}|.
 
-\section{\LaTeX{} syntax for citations}
-You can cite sources like \textcite{ouyang_training_2022}.
+% \section{\LaTeX{} syntax for citations}
+% You can cite sources like \textcite{ouyang_training_2022}.
 
-\section{Style tips}
-Highly recommended is to render your figures as PDFs. For block diagrams, we recommend \href{https://draw.io}{\texttt{draw.io}}. For other visuals (graphs, histograms, bar plots, numerical tables ...) we suggest the \href{https://github.com/bauwenst/fiject}{\texttt{fiject}} Python package.
+% \section{Style tips}
+% Highly recommended is to render your figures as PDFs. For block diagrams, we recommend \href{https://draw.io}{\texttt{draw.io}}. For other visuals (graphs, histograms, bar plots, numerical tables ...) we suggest the \href{https://github.com/bauwenst/fiject}{\texttt{fiject}} Python package.
 
-If you want inspiration about how you could format queries and responses, you could check out the GPT-4 paper \parencite{bubeck_sparks_2023}.
+% If you want inspiration about how you could format queries and responses, you could check out the GPT-4 paper \parencite{bubeck_sparks_2023}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Disclaimer}
+If no full prompt is provided, then the used prompt table is:\\
+\# Recipe Assistant
+
+\#\# Context
+You are a helpful recipe assistant with access to a database of recipes. The system has already retrieved the most relevant recipes to the user's query using TF-IDF similarity. Your goal is to provide helpful, accurate responses about recipes, cooking techniques, ingredient substitutions, and culinary advice based on the retrieved recipes.
+
+\#\# Retrieved Recipes
+The following recipes have been retrieved as most relevant to the user's query:
+
+\{retrieved\_recipes\}
+
+\#\# Instructions
+1. **Answer directly from the retrieved recipes when possible.** Use the information from the provided recipes to answer questions about ingredients, cooking methods, nutritional information, and preparation steps.
+
+2. **For ingredient questions:**
+- Provide accurate amounts and measurements from the recipes
+- Suggest possible substitutions based on common culinary knowledge
+- Explain the purpose of key ingredients in the dish
+
+3. **For cooking technique questions:**
+- Explain preparation methods mentioned in the recipes
+- Clarify cooking times and temperatures
+- Describe expected results and how to tell when food is properly cooked
+
+4. **For modification requests:**
+- Suggest appropriate adjustments for dietary restrictions (vegan, gluten-free, etc.)
+- Explain how to scale recipes up or down
+- Offer ideas for flavor variations while maintaining the core identity of the dish
+
+5. **For general questions:**
+- Provide brief culinary background/history when relevant
+- Explain unfamiliar cooking terms
+- Suggest pairings, serving suggestions, and storage recommendations
+
+\#\# Response Format
+- Start with a direct answer to the user's question
+- Keep your responses concise but comprehensive
+- For multi-step instructions or complex concepts, organize information in a clear, logical structure
+- If the retrieved recipes don't contain sufficient information to answer the query, acknowledge the limitations and provide general culinary knowledge that might help
+- When suggesting modifications not explicitly in the retrieved recipes, clearly indicate these are your recommendations based on culinary principles
+
+\#\# Limitations
+- Don't make claims about specific nutritional values unless they're mentioned in the retrieved recipes
+- If asked about topics completely unrelated to cooking or the recipes provided, politely redirect the conversation back to recipe-related topics
+- Don't invent or fabricate details about recipes that aren't in the retrieved data
+
+\#\# User Query
+\{user\_query\}
 
 \section{Architecture}
 \begin{figure*}[H]
@@ -65,10 +115,13 @@ def preprocess_text(doc):
 
 \subsection{Term Vocabulary - TF-IDF Vectorization}
 \begin{verbatim}
-vec_uni = TfidfVectorizer(min_df=20, max_df=0.5,
- ngram_range=(1, 1))
-vec_bi = TfidfVectorizer(min_df=50, max_df=0.4,
- ngram_range=(2, 2), max_features=10000)
+vec_uni = TfidfVectorizer(
+        min_df=20, max_df=0.5,
+        ngram_range=(1, 1))
+vec_bi = TfidfVectorizer(
+        min_df=50, max_df=0.4,
+        ngram_range=(2, 2),
+        max_features=10000)
 \end{verbatim}
 
 \subsection{Term Vocabulary - Chosen fields}
@@ -84,10 +137,11 @@ Evaluated combinations (K=40, threshold=0.2):
 \section{Retrieval - Hyperparameters Search}
 
 \subsection{Retrieval - Hyperparameters Search - TF-IDF}
-Grid search results are in \ref{fig:parameter_heatmap_tfidf}.
+Grid search results are in~\ref{fig:parameter_heatmap_tfidf}.
 \begin{figure*}
     \centering
     \includegraphics[width=0.9\textwidth]{ir_parameter_heatmap1747239585.png}
+    \caption{Grid search results for TF-IDF}
     \label{fig:parameter_heatmap_tfidf}
 \end{figure*}
 
@@ -154,7 +208,7 @@ Name: ramsay sticky chicken drumsticks
 Recipe ID: 94353, Score: 0.2029
 Name: gordon ramsay scrambled eggs
 
-Refer to \ref{tab:beef_wellington} for the results.
+Refer to Table \ref{tab:beef_wellington} for the results.
 
 \begin{table*}
     \centering
@@ -264,23 +318,289 @@ The following recipes have been retrieved as most relevant to the user's query:
 
 
 
-\section{LLM Reasoning TODO}
+\section{LLM Evaluation}
 
-\subsection{LLM Reasoning - 1 TODO}
+\subsection{LLM Reasoning - Question}
+I'm looking for a spicy pasta sauce, but I forgot the name. I think it was related to Arabs?
 
-\subsection{LLM Reasoning - 2 TODO}
+\subsubsection{LLM Reasoning - Context}
+Document 0, Score: 0.4509
+Name: spicy pasta sauce
+Description: a pasta sauce with a lot of kick!
+Ingredients: spicy sausage, pasta sauce, rotel tomatoes \& chilies, minced garlic cloves, parmesan cheese
+Steps: crumble sausage into skillet and cook until no longer pink, drain sausage well and wipe out skillet, return sausage to skillet and add pasta sauce , rotel , and garlic, simmer for 10 minutes, stir in parmesan cheese
 
-\subsection{LLM Reasoning - 3 TODO}
+Document 1, Score: 0.4362
+Name: world easiest tomato soup
+Description: this recipe came together one cold winter day when i was craving tomato soup and all i had in the pantry resembling tomatoes, was a jar of pasta sauce.
+Ingredients: pasta sauce, heavy cream
+Steps: in a medium sized sauce pan add pasta sauce and heavy cream, simmer slowly over low heat for about 10 minutes or until heated through, i used members mark all-natural pasta sauce with four cheese from sams club , but im confident any brand pasta sauce with four cheese will turn out just as tasty
 
-\subsection{LLM Reasoning - 4 TODO}
+Document 2, Score: 0.3515
+Name: romano casserole
+Description: this is a really tasty, easy to put together casserole that your whole family will enjoy. the original recipe came from the label on a jar of pasta sauce. i use a smooth pasta sauce with tomato and romano cheese in it to make this but you could easily experiment with different types or use home-made.
+Ingredients: raw rice, green capsicum, onion, pasta sauce, red kidney beans, lean ground beef, cheese, bacon
+Steps: place the rice in a greased casserole dish, cover the bottom evenly with the rice, sprinkle with the capsicum and onion, pour over half the pasta sauce, layer the kidney beans on top of the sauce and then spread the uncooked mince over the top of that, pour over the remaining pasta sauce and sprinkle with the bacon and cheese, bake , covered , at 180 degrees c for 1 hour, remove the lid for the last 10 minutes to brown the cheese
 
-\subsection{LLM Reasoning - 5 TODO}
+Document 3, Score: 0.3355
+Name: baked chicken pasta sauce
+Description: this ia a simple chicken dish with lots of flavor, use your own favorite pasta sauce for this, prego traditional pasta sauce works well with this --- for each extra pound chicken increase the sauce by 1 to 1-1/2 cups, remember to drain the fat completely before adding the sauce :)
+Ingredients: chicken pieces, seasoning salt, ground black pepper, garlic powder, pasta sauce, spaghetti, parmesan cheese
+Steps: set oven to 375 degrees f, grease a 13 x 9-inch or a 2-quart baking dish, pat the chicken pieces dry using paper towels, season the chicken pieces with seasoned salt , black pepper and garlic power, place into the baking dish, bake for 30 minutes, drain any fat in the dish, pour the pasta sauce over the chicken then return to oven for another 25-30 minutes or until the chicken is cooked through, sprinkle parmesan cheese over, serve with cooked spaghetti
 
+Document 4, Score: 0.3318
+Name: cheesy vegetable pasta
+Description: another great pasta recipe.  from taste of home.
+Ingredients: olive oil, zucchini, vegetable oil, three-cheese pasta sauce, cooked spiral shaped pasta, mozzarella cheese
+Steps: heat oil in saucepan over medium heat, add zucchini and cook until crisp-tender, add pasta sauce and pasta, heat through, stir in the cheese
+
+
+\subsubsection{LLM Reasoning - Response}
+Based on the retrieved recipes, none of them directly mention Arab origin. However, I can help you with a spicy pasta sauce recipe.
+One of the recipes in the list, called "spicy pasta sauce," includes ingredients such as spicy sausage, pasta sauce, rotel tomatoes \& chilies,
+minced garlic cloves, and parmesan cheese. To make the sauce, you first cook the spicy sausage in a skillet until no longer pink, 
+then drain it and wipe out the skillet. Return the sausage to the skillet and add the pasta sauce, rotel, and garlic. 
+Simmer for ten minutes and stir in the parmesan cheese. This recipe should result in a spicy pasta sauce with a rich and flavorful taste.
+
+\subsection{LLM Reasoning - Question}
+I want to eat something with cactus. How many recipes do you know?
+
+\subsubsection{LLM Reasoning - Context}
+Document 0, Score: 0.3095
+Name: california cactus salad
+Description: this is a latin inspired recipe adapted from cooking light magazine. i sometimes can find cactus pads in walmart.
+Ingredients: cactus pieces, olive oil, garlic cloves, canned black beans, green onions, fresh cilantro, fresh lime juice, sugar, ground cumin, dried chipotle powder, tomatoes, lettuce, queso fresco, sour cream
+Steps: peel thorns from cactus pads with a vegetable peeler , leaving the green skin, cut cactus pads into thin strips, heat the oil in a large nonstick skillet over medium high heat, add the cactus and garlic , saute 7-8 minutes or until cactus is tender, combine the cactus mixture , beans and the next 7 ingredients, arrange 1 1 / 2 cups lettuce on each of 4 plates , top each with 1 / 2 cup cactus mixture , 1 1 / 2 tbls, cheese , and about 2 teaspoons sour cream, enjoy !, yield: 4 servings
+
+Document 1, Score: 0.3089
+Name: cactus mexican style
+Description: this is so good for my family. family favorite. healthy and yummy!
+Ingredients: cactus pieces, tomatoes, white onion, jalapeno pepper, cilantro, monterey jack cheese, salt, corn oil
+Steps: steam the cactus until softened, drain the cactus, fry all the ingredients except for the monterrey cheese, combine fried ingredients with the cactus and allow to simmer for 15 minutes, top with cheese before serving
+
+Document 2, Score: 0.2848
+Name: cactus salad
+Description: ive never eaten cactus before but this does not sound to bad.
+Ingredients: cactus pieces, water, salt, scallions, cider vinegar, lime juice, sun-dried tomato packed in oil, oregano leaves, red onion, queso fresco, chipotle chiles
+Steps: pare off edges of cactus paddles and slice into inch strips, bring water , salt , and scallions to a boil, drop in cactus strips and bring to boiling, reduce heat and simmer until tender, drain and rinse, combine vinegar , lime juice , oil , sun dried tomatoes , and oregano in separate bowl, arrange cactus strips and sauted onions on platter , pour vinegar mixture over salad , sprinkle cheese and chilies on top and serve
+
+Document 3, Score: 0.2654
+Name: cactus candy
+Description: from allrecipes, a taste of the desert!
+Ingredients: prickly pear cactus, granulated sugar, water, orange juice
+Steps: select prickly pear cactus, remove spines and outside layer with large knife, i found this at walmart !, cut pulp across in slices one-inch thick, soak overnight in cold water, remove from water , cut in 1 cubes and cook in boiling water til tender, drain, heat the sugar and water until sugar is dissolved, then add cactus, cook slowly in the syrup until nearly all the syrup is absorbed, do not scorch ! remove cactus from syrup , drain and roll in granulated or powdered sugar, for colored cactus candy , any vegetable food coloring may be added to the syrup
+
+Document 4, Score: 0.2645
+Name: pico de gallo cactus
+Description: this is a recipe from my grandmother. there isnt much difference in pico de gallo recipes but this one adds a great flavor when you add the cactus. the cactus can be located in the mexican food isle. my friends really enjoy the recipe. i hope you enjoy.
+Ingredients: tomatoes, white onion, cilantro leaf, jalapeno peppers, cactus pieces
+Steps: mix all together, add salt and garlic salt to taste
+
+
+\subsubsection{LLM Reasoning - Response}
+Based on the retrieved recipes, I can help you with at least four different recipes that feature cactus as a main ingredient. Here's a brief summary of each:
+
+1. California Cactus Salad: Cactus pieces are sautéed with garlic, then combined with black beans, green onions, cilantro, lime juice, sugar, ground cumin, and dried chipotle powder. Served over lettuce with queso fresco and sour cream.
+2. Cactus Mexican Style: Steamed cactus is Drained, then fried with tomatoes, white onion, jalapeno pepper, and cilantro. Topped with monterey jack cheese before serving.
+3. Cactus Salad: Cactus strips are boiled and then combined with vinegar, lime juice, sun-dried tomatoes, oregano, red onion, queso fresco, and chipotle chiles. Served cool on a platter.
+4. Cactus Candy: Prickly pear cactus is cooked in syrup made from sugar, water, and orange juice, then drained and rolled in granulated sugar.
+
+Each of these recipes offers a unique taste profile, so I recommend you try the one that most appeals to your personal preferences. If you have any specific questions about the recipes or their ingredients, please don't hesitate to ask.
+
+
+\subsection{LLM Reasoning - Question}
+Give me some ideas for pasta dishes that contain calamari.
+
+\subsubsection{LLM Reasoning - Context}
+Document 0, Score: 0.2734
+Name: bill sunday night pasta
+Description: i put this together late on a sunday night and it was so good, i just had to share it with you. i ate it along with a glass of red wine, but if eaten with a salad, it would be a nice solo lunch.
+Ingredients: dry pasta, tomatoes, pepperoni, salt, garlic, olive oil, parmesan cheese
+Steps: first , dice the tomato and sprinkle with the salt, start 2 quarts of salted water to boil , and when it is a rolling boil , add the pasta, cook until desired doneness dice the garlic and put in the bottom of a pasta dish with one tablespoon of olive , while the pasta is cooking, add the hot cooked pasta to the dish , and toss until the the olive oil and garlic coats the pasta, add pepperoini and tomato and toss again, drizzle the rest of the olive oil on top , and add parmesan cheese
+
+Document 1, Score: 0.2712
+Name: calamari special
+Description: this is one of the nicest and best tasting calamari recipes that i have eaten. i find that the calamari is not tough as i have experienced in many restaurants. a friend chef and i developed this marvelous recipe that is so easy to prepare.
+Ingredients: calamari, whole milk, all-purpose flour, panko breadcrumbs, vegetable oil, garlic cloves, sambal oelek
+Steps: firstly , prepare a deep-fryer with a good vegetable oil and heat to 375 degrees f , or use a medium size deep frying pan on high heat, defrost calamari and rinse under cold running water, cut calamari into 1 / 4 inch strips, if using fresh calamari , just cut into 1 / 4 inch strips, pat dry calamari with paper towels, in a medium size mixing bowl , mix together flour and panko bread crumbs, add milk to a bowl and dip calamari in the milk, toss calamari strips in flour / crumb mixture just to coat, you do not want to have a heavy coating as it could drop off when frying, flash fry coated calamari in prepared deep-fryer or frying pan for about 15 seconds , deep frying in small amounts, in a frying pan , heat 1 / 2 cup of vegetable oil to medium-high heat, add garlic and sambal oelek and stir well , cover with a screen to prevent oil from spattering or splashing, saut flash-fried calamari for about 1 minute or until nicely light brown, do not over fry as it could get chewy, serve calamari with your favorite dip
+
+Document 2, Score: 0.2688
+Name: crumbed calamari
+Description: i love calamari. this is how to crumb them at home. look for more calamari recipes coming soon. serve with tartar sauce and enjoy the experience
+Ingredients: calamari, breadcrumbs, salt, pepper, garlic powder, egg, milk, oil, tartar sauce
+Steps: mix the breadcrumbs with the salt , pepper and garlic powder and place into a plastic bag so you can shake the crumbs onto the calamari, beat the egg and combine with the milk and place this into a small dish, heat the oil up to 160c degrees, dip the calamari rings individually into the egg / milk mix and then into the plastic bag and shake, the calamari should be well coated, deep fry until a nice brown tinge, i tend to fry mine for about 4-5 minutes, it also depends on the calamari some it is better at a lower heat for longer, this rule especially applies to bought crumbed calamari, enjoy, serve with tartar sauce
+
+Document 3, Score: 0.2567
+Name: prawn chicken stuffed calamari thai style
+Description: this stunning dish comes from melbournes wonderful royal thai restaurant palm sugar and was published in the age newspaper some time ago.  it looks impressive and is highlighted by the tasty chilli capsicum sauce.
+Ingredients: calamari, prawns, minced chicken, garlic clove, fish sauce, frypowder, oil, red capsicum, vinegar, sugar, fresh chili peppers, coriander leaves
+Steps: calamari:, mix the prawn chicken and garlic together, stuff the calamari with the mixture until full , but taking care not to over-stuff as the calamari will expand when cooked, secure the open end of the calamari with toothpick / s, in a steamer , steam the calamari for about 25- 30 minutes, use this opportunity to make sauce, when the steaming is completed , roll the calamari tube in a shallow dish containing the fry powder, once coated , remove the calamari tube and add water to the fry powder to make a paste as per the packets instructions, heat oil is a wok so that it is just starting to smoke, add calamari tube and fry quickly on all sides the coating should be a light , crisp batter, remove calamari from oil , and cut into slices / discs, place the discs on a plate , pour / drizzle sauce over the top and sprinkle coriander leaves over the dish, sauce:, add oil to small saucepan and saut capsicum , garlic and chilli until the capsicum is soft, add the fish sauce , vinegar and sugar to the saucepan, cook until sauce starts to thicken , being careful not to burn
+
+Document 4, Score: 0.2543
+Name: calamari tomato sauce
+Description: i love calamari no matter how its cooked, but this is a good one!
+Ingredients: calamari, oil, garlic cloves, crushed red pepper flakes, tomato sauce, parsley, salt, red wine
+Steps: cut calamari into small strips, place in saucepan and cook over medium heat for 15 minutes drain all but 1 cup of liquid, add oil , garlic , chili pepper , sauce , parsley and salt, cover and simmer for 25 minutes, add wine and cook for an additional 5 minutes, adjust seasonings to taste, serve over cooked rice or noodles
+
+\subsubsection{LLM Reasoning - Response}
+Based on the retrieved recipes, I suggest trying the following pasta dishes that include calamari:
+
+1. **Sunday Night Pastaa with Calamari:** This dish is a simple yet delicious combination of pasta, calamari, 
+tomatoes, garlic, olive oil, and parmesan cheese. Here's a brief summary of the steps from the recipe for this dish:
+Cook the pasta in salted water until desired doneness. Sauté garlic in olive oil, then add cooked pasta, tomatoes, 
+and pepperoni. Toss the pasta with the garlic and olive oil, then add calamari and tomatoes. Drizzle with more olive oil and garnish with parmesan cheese.
+
+2. **Calamari Marinara:** In this dish, calamari is cooked in a tomato sauce. To make it, cut calamari into small strips
+and cook it with oil, garlic, crushed red pepper flakes, and tomato sauce. Let it simmer until the flavors meld together.
+Serve over cooked rice or noodles.
+
+These are our suggestions for pasta dishes with calamari based on the provided recipes. Let me know if you have any further questions or need more details!
+
+If you have dietary restrictions or want to modify the dishes in specific ways, please let me know, and I'll do my best to suggest appropriate adjustments.
+
+\subsection{LLM Reasoning}
+
+\subsubsection{LLM Reasoning - Question}
+What ingredients are needed to make tacos?
+
+\subsubsection{LLM Reasoning - Context}
+Document 0, Score: 0.2947
+Name: almost taco bell famous tacos house
+Description: who doesnt love an authentic taco bell taco?  ever try and make them at home only to end up with a meat substance that resembles nothing of taco bells? well.. this recipe is the closest i have come, and i never get complaints 
+Ingredients: lean ground beef, low-fat refried beans, taco seasoning, garlic, salt, pepper, taco shells, cheese, lettuce, sour cream
+Steps: preheat oven to 375 or 425, brown meat, add can of refried beans, add taco seasoning, add garlic , salt and pepper and heat until beans are heated all the way through , remove from heat, brown taco shells, prepare tacos with whatever you like
+
+Document 1, Score: 0.2898
+Name: beef bean oven tacos
+Description: tacos.  we love tacos.  the kids devour them.  they love the crunchy mess.  they love the flavors.  they love to see how full they can make them.  and they love to eat them on their special taco plates.  (my mom gave us some for christmas...great gift!)  i love the concept of making tacos in the oven...and melting the cheese over the top of the meat.  then piling on the toppings.  i doubled up the beef-bean taco meat and stashed the other half in the freezer...im thinking about using it for stuffed peppers.  or another taco night.  or enchiladas.  well see what kind of inspiration strikes (and what other ingredients i have on hand!) when i pull it out of the freezer in the near future.  below is the doubled version recipe for the taco meat.  half it, if you want just for this dinner.  make recipe as is, if you want to freeze some.  or if you have a large family.  or are feeding a lot of boys.  you get the picture.
+Ingredients: ground beef, onion, black beans, taco seasoning, diced tomatoes, taco shells, cheese, corn
+Steps: preheat the oven to 350f, brown the ground beef with the chopped onion, once browned , drain well, stir in the black beans , taco seasoning , diced tomatoes and let simmer for 5 minutes, line up 8 taco shells in a 7x11-inch baking dish, spoon meat mixture into the taco shells, top with a pinchfuls of cheese, bake in the preheated oven for 10 minutes, serve beef \& bean oven tacos with side of veggies
+
+Document 2, Score: 0.2831
+Name: taco casserole surprise
+Description: this recipe is my own creation. it works great with the pre-packaged taco kits. if you like the crust a little softer, add more taco sauce and bake for a few more minutes.
+Ingredients: taco shells, taco sauce, ground beef, onion, taco seasoning, diced tomatoes, cheddar cheese, water
+Steps: brown the ground beef with the onion and drain, add the taco seasoning and the water, simmer until water is cooked away, preheat oven to 375 degrees, spray 13x9 inch casserole dish with nonstick cooking spray, crunch taco shells into pan, this will be the crust, spread beef and onion over taco shells evenly, add tomatoes evenly over beef, add about 1 / 2 of the jar of taco sauce, spread over tomatoes, cover with cheese, bake for approx, 10 minutes or until cheese is melted and bubbly, let stand for 5 minutes before serving
+
+Document 3, Score: 0.2828
+Name: turkey taco salad
+Description: one serving only calls for 1/2 cup of ground turkey/taco mix; but i fry up one pound and add 1 pkg of taco mix and freeze the leftovers for future use. 5 points per serving
+Ingredients: ground turkey, taco seasoning mix, sour cream, salsa, diced tomato, lettuce, cheese
+Steps: prepare taco mixture according to the directions on the package of taco mix, for individual servings , take 1 / 2 c of the taco / meat mixture and add to the remaining ingredients, freeze the remaining taco / meat mixture for future use or treat the rest of your family to tacos while you diet
+
+\subsubsection{LLM Reasoning - Response}
+To make tacos based on the retrieved recipes, you will need the following ingredients:
+
+- Ground beef or turkey
+- Taco seasoning
+- Refried beans (optional)
+- Garlic (Optional, Document 0)
+- Salt and pepper (Optional, Document 0)
+- Taco shells
+- Cheese
+- Lettuce
+- Sour cream (Optional, Document 0)
+- Onion (Optional, Document 1 and 2)
+- Black beans (Optional, Document 1)
+- Diced tomatoes (Optional, Document 1)
+- Corn (Optional, Document 1)
+- Water (Optional, Document 2)
+
+These ingredients are explicitly listed in the recipes. Depending on your preference, you may want to add or substitute other toppings such as salsa, guacamole, or cilantro.
+
+If you are following a specific dietary restriction, please let me know so I can suggest appropriate modifications, if applicable.
+
+\subsection{LLM Reasoning}
+\subsubsection{LLM Reasoning - Question}
+Give me 3 recipies for cakes
+
+\subsubsection{LLM Reasoning - Context}
+Document 0, Score: 0.2256
+Name: tartar sauce
+Description: this is culled from many different recipies.  i think you will like it
+Ingredients: mayonnaise, sweet pickle relish, capers, lemon juice, hot sauce, cajun seasoning, dry mustard, garlic, fresh parsley, dill, tarragon, white pepper
+Steps: stir together all ingredients in a bowl and chill , until ready to serve
+
+Document 1, Score: 0.2206
+Name: zesty crab cups
+Description: another of my need to try cut out recipies. i love crab so this has to be tasty. i am posting these so  that i can try them out and not leave the recipies in a box.
+Ingredients: wonton wrappers, crabmeat, scallions, radishes, parsley, olive oil, lime, zest of, lime, juice of, hot sauce
+Steps: heat oven to 350, press wonton wrappers into mimi muffin tins that have been coated with cooking spray, bake 10 minutes or until a golden color, remove from pan and cool, in a bowl combine the next 4 ingredients, in a separate bowl whisk the oil 2 tbsp lime juice 1 tsp of the zest and pepper sauce, add salt if desired, stir oil mixture into crab mixture and divide into the wonton cups
+
+Document 2, Score: 0.2172
+Name: sweet potato casserole nuts
+Description: my mothers friend jean made this once when i was 13. even then i was asking for recipies. and so here it is.
+Ingredients: sweet potatoes, sugar, eggs, vanilla, butter, brown sugar, flour
+Steps: mix first 5 ingredients in a large bowl and spread into a large baking dish, mix together the topping ingredients and sprinkle on top, bake for 1 / 2 hour to 45 min in 350 degree oven
+
+Document 3, Score: 0.2023
+Name: cake mix chocolate mayonnaise cake
+Description: i like to get creative with boxed cake mixes. its more convenient and less time consuming than making cakes from scratch. the mayonnaise in this cake makes it really moist. you cannot tell the mayonnaise is in it. since mayonnaise is made with eggs and oil, there is no need to add oil to this recipe and it uses less eggs. instead of the 3 large eggs the directions on the cake mix box calls for, this recipe calls for 2 large eggs.
+Ingredients: devils food cake mix, eggs, water, mayonnaise, chocolate chips, frosting
+Steps: preheat oven to 350, grease and flour a bundt cake pan or a 9x13x2 inch cake pan, dump the cake mix into a large mixing bowl, add eggs , water and mayonnaise, mix by hand or with an electric mixer until well mixed, stir the chocolate chips into the cake batter using a large spoon, pour the cake batter into the cake pan and spread evenly, bake for 35 minutes or until cake is done, press the center of the cake in , using a finger, if it springs back , the cake is done, if not it needs more baking time, if using a bundt cake pan , allow the cake to cool for 10 minutes and follow the next 3 steps, put a dinner plate or cake plate on top of the bundt cake pan, with the bottom of the plate facing you, holding the bundt cake pan onto the plate , turn it over, you may need to slightly shake the pan while it is on the plate to help loosen the cake from the pan, if using a 9x13x2 inch cake pan , insert a toothpick into the center of the cake, if the toothpick comes out clean , the cake is done, if you are going to ice / frost the cake , allow the cake to completely cool, if you dont want to frost / ice the cake you can dust it with powdered sugar
+
+
+
+
+\subsubsection{LLM Reasoning - Response}
+Based on the retrieved recipes, here are three cake recipes:
+
+1. **Tartar Sauce Cake**: This unconventional cake recipe includes mayonnaise, which makes the cake surprisingly moist. The other ingredients include Devil's Food cake mix, eggs, water, and mayonnaise. The cake is mixed by hand or with an electric mixer, with chocolate chips added to the batter. The baking instructions can be found in the provided recipe.
+
+2. **Sweet Potato Casserole Cake**: This unique cake recipe is made from sweet potatoes, sugar, eggs, vanilla, butter, brown sugar, flour, and toppings (pecans and brown sugar). The sweet potatoes are mixed together and spread into a baking dish. The toppings are combined separately and sprinkled on top. The cake is baked for about 30-45 minutes at 350 degrees.
+
+3. **Zesty Crab Cup Cakes**: While not a traditional cake, these wonton cup-shaped cakes are filled with crabmeat, scallions, radishes, parsley, lime zest, lime juice, and hot sauce. The wonton wrappers are pressed into muffin tins and baked until golden. The filling is combined in a bowl and whisked together with olive oil, lime juice, lime zest, and pepper sauce. Then, the crab mixture is divided among the wonton cups.
+
+I hope these recipes meet your cake desires. Let me know if there's any other information you're looking for!
+
+\subsection{LLM Reasoning - Hallucination - No Documents Provided- How does Gordon Ramsay make his beef Wellington?}
+Based on the recipes in our database, Beef Wellington is typically made by coating a filet of beef with pate, wrapping it in sliced ham and mushrooms, then covering it with puff pastry. Here are some specific steps:
+
+1. Prepare the beef: Season a beef filet (about 2-3 lbs) with salt, pepper, and olive oil. Brown the beef in a pan on all sides.
+2. Prepare the pate: Spread a layer of pate (duck, chicken liver, or pork liver) over the seasoned beef. Alternatively, use prepared pate from the market.
+3. Wrap with ham: Wrap the beef with thinly sliced ham or pie pastrami. You want to create an even layer of ham that covers the entire filet.
+4. Wrap with mushrooms: Sauté sliced mushrooms with chopped shallots, garlic, and thyme in butter. Spread this mushroom duxelles mixture over the ham layer. Alternatively, you can use cooked whole mushrooms instead.
+5. Encase in pastry: Roll out puff pastry large enough to encase the entire beef Wellington. Brush the pastry edge with an egg wash, and then wrap the beef entirely with the pastry, pressing the edges to seal.
+6. Bake: Brush the pastry with an egg wash, and bake the beef Wellington at 375°F (190°C) for about 20 minutes per pound, or until the internal temperature reaches 130-135°F (54-57°C) for medium-rare. Allow it to rest for 15-30 minutes before carving and serving.
+7. Serve: Slice the Beef Wellington into portions and serve with horseradish sauce, red wine sauce, or a green salad.
+
+As for the specific way Gordon Ramsay makes his Beef Wellington, we don't have that information in our database. However, the method described above is a common way to make this classic dish. If you have a specific variation or cooking technique from Gordon Ramsay's recipes, please let me know!
+
+\subsection{LLM Reasoning - Prompt with scores - How to make pizza?}
+To make pizza, you'll first need to gather some key ingredients and tools. Based on the retrieved recipes, you'll need pizza dough, tomato paste or sauce, cheese, and various toppings of your choice (such as ham, sausage, olives, or vegetables). Optionally, you may also use olive oil for brushing the dough or for cooking the vegetables.
+
+Here are general steps to create a homemade pizza:
+
+1. Preheat your oven to around 180 degrees Celsius or 350 degrees Fahrenheit. If you're using a pizza stone, preheat it in the oven for at least 20 minutes.
+2. Roll out the pizza dough on a lightly floured surface until it reaches your desired thickness. Transfer it to a pizza peel or an inverted baking sheet topped with parchment paper.
+3. Brush the dough with a small amount of olive oil, if desired. Spread a thin layer of tomato paste or sauce over the dough, leaving a border around the edges for the crust.
+4. Sprinkle a generous amount of shredded cheese evenly over the sauce. Add your selected toppings and, if using, dot the pizza with small blobs of cheese (such as ricotta) near the toppings.
+5. Carefully transfer the pizza to the preheated oven or pizza stone. Cook until the cheese is bubbly and slightly golden. The total cooking time may vary based on the size of the pizza and the intensity of your oven.
+
+For more creative options, some recipes suggest spreading the sauce all over the tortilla for a "grilled pizza" style with less crust, or using a wood-fired oven for a unique, traditional pizza taste. Remember, the possibilities are endless, so feel free to get artistic and experiment with different ingredients and cooking techniques!
+
+Keep in mind, if you have specific dietary restrictions, please let me know, and I'll do my best to suggest modifications while maintaining the core identity of the pizza.
+
+Hope this information helps you on your pizza-making journey, and please don't hesitate to ask if you have any further questions!
+
+\subsection{LLM Reasoning - Prompt without scores - How to make pizza?}
+To make pizza, you'll need to follow these steps based on the information provided in the retrieved recipes:
+
+1. Preheat your oven to about 180 degrees. You can buy ready-made pizza bases or make one from scratch using pizza dough.
+2. Spread tomato paste on your pizza base, ensuring it covers the entire surface evenly, leaving no spots without it. You may want to add Italian seasoning for additional flavor.
+3. Add toppings of your choice. Ham is optional but adds great taste. Be sure your ham is within its use-by date. Alternatively, you can forgo ham or add other preferred toppings like olives, sausage, meatballs, pepperoni, chili peppers, supreme, veggies, and more.
+4. Sprinkle a layer of cheese on top of the toppings. Ensure an even distribution.
+5. Place the pizza on an oven tray sprayed with olive oil to prevent sticking.
+6. Put the pizza in the oven and turn the temperature down to around 160 degrees. Cook it for about 15-25 minutes, depending on your oven. You can judge the pizza is ready when the cheese is golden brown but not burnt.
+
+This method is suitable for those with limited time, as you can use store-bought pizza bases. If you have more time, consider making the dough and pizza from scratch. Enjoy your homemade pizza!
+
+Keep in mind that you can be creative with your pizza; try different cheeses, toppings, and techniques, tailoring the dish to your personal taste.
 
 
 \section{Neural Embeddings Evaluation}
 \subsection{Grid Search - Wiki Embeddings}
-Refer to \ref{fig:wiki_embeddings_heatmap} for the grid search results and \ref{tab:wiki_embeddings} for the evaluation metrics.
+Refer to Figure~\ref{fig:wiki_embeddings_heatmap} for the grid search results and Table~\ref{tab:wiki_embeddings} for the evaluation metrics.
 \begin{figure*}
     \centering
     \includegraphics[width=0.9\textwidth]{wiki_embeddings_heatmap.png_1747347453.png}
@@ -311,7 +631,7 @@ Best hyperparams: K=8, threshold=0.40
 \end{table*}
 
 \subsection{Grid Search - Recipe Embeddings}
-Refer to \ref{fig:recipe_embeddings_heatmap} for the grid search results and \ref{tab:recipe_embeddings} for the comparison with TF-IDF.
+Refer to Figure~\ref{fig:recipe_embeddings_heatmap} for the grid search results and Table~\ref{tab:recipe_embeddings} for the comparison with TF-IDF.
 \begin{figure*}
     \centering
     \includegraphics[width=0.9\textwidth]{recipies_embeddings_heatmap.png_1747347706.png}
@@ -342,7 +662,7 @@ Best hyperparams: K=12, threshold=0.45
 \end{table*}
 
 \subsection{Compression}
-Refer to \ref{tab:compression} for the comparison bewteen chunking, not chunking and TF-IDF on Recipe dataset.
+Refer to Table~\ref{tab:compression} for the comparison bewteen chunking, not chunking and TF-IDF on Recipe dataset.
 \begin{table*}
     \centering
     \begin{tabular}{|l|c|c|c|}
@@ -386,7 +706,6 @@ Here's a brief explanation of Dijkstra's algorithm:
 
 Now, let's write a Python function for Dijkstra's algorithm:
 \begin{lstlisting}[language=Python]
-```python
 import heapq
 
 def dijkstra(graph, start, end):
@@ -403,16 +722,17 @@ def dijkstra(graph, start, end):
 
     for neighbor, edge in 
         graph[current].items():
-     distance = current_distance + edge
+     distance = 
+       current_distance + edge
      if neighbor not in distances 
-         or distance < distances[neighbor]:
+       or distance 
+         < distances[neighbor]:
       distances[neighbor] = distance
     heapq.heappush(unvisited, 
     [neighbor, distance])
 
-return ``Unknown error: could not
- find a path from {} to {}.``
-```
+return Unknown error: could not
+ find a path from {} to {}.
 \end{lstlisting}
 
 \subsection{Security - Adversarial Prompt - Defense}
@@ -431,11 +751,11 @@ information related to recipes. I cannot generate or provide Python code for Dij
 However, if you find a recipe in our database that includes a Python implementation of Dijkstra's algorithm,
 I will be more than happy to help you understand the code and its application to the recipe. If you have
 any recipe-related questions, feel free to ask and I will do my best to provide accurate and helpful responses based on the information in our database.</s>
-\newpage
-\onecolumn
-\appendix
+% \newpage
+% \onecolumn
+% \appendix
 
-\section*{Bibliography}
-\printbibliography[heading=none]
+% \section*{Bibliography}
+% \printbibliography[heading=none]
 
 \end{document}

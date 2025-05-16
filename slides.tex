@@ -173,9 +173,9 @@ def create_parameter_heatmap(queries, recipes, recipe_ids):
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}{4.3 Retrieval - Parameter Heatmap}
   \centering
-  \includegraphics[width=0.9\textwidth]{ir_parameter_heatmap1747239585.png}
+  \includegraphics[width=0.8\textwidth]{ir_parameter_heatmap1747239585.png}
 \end{frame}
 
 \begin{frame}{4.3 Retrieval - Evaluation Metrics}
@@ -222,7 +222,6 @@ def calculate_average_precision(relevant_doc_ids,
 \end{frame}
 
 \begin{frame} {5. Qualitative analysis - Information Retrieval}
-  TIODO TODO TODO
 \end{frame}
 
 \begin{frame} {5.1 Qualitative analysis - Information Retrieval}
@@ -350,14 +349,12 @@ prompt = prompt_template.format(
 \end{frame}
 % TODO: idea do a prompt to count all stuff accros  given kind or recipce so it coutns proeucts acress all retrieved recipes
 \begin{frame}{7.2 Qualitative analysis - LLM Reasoning 1}
-  TODO: add to handout
   Q: ``I'm looking for a spicy pasta sauce, but I forgot the name. I think it was related to Arabs?``\\
   A: ``Based on the retrieved recipes, none of them directly mention Arab origin. However,
   I can help you with a spicy pasta sauce recipe....``
 \end{frame}
 
 \begin{frame}{7.2 Qualitative analysis - LLM Reasoning 2}
-  TOOD: add to handout
   Q: ``I want to eat something with cactus. How many recipes do you know?``\\
   A: ``Based on the retrieved recipes, I can help you with at least four different recipes that feature cactus as a main ingredient. Here's a brief summary of each:\\
   \ldots \\
@@ -365,7 +362,6 @@ prompt = prompt_template.format(
 \end{frame}
 
 \begin{frame}{7.2 Qualitative analysis - LLM Reasoning 3}
-  TODO: add to handout
   Q: ``Give me some ideas for pasta dishes that contain calamari.``\\
   A: ``Based on the retrieved recipes, I suggest trying the following pasta dishes that include calamari:\\
   1. **Sunday Night Pastaa with Calamari:** \ldots\\
@@ -376,25 +372,39 @@ prompt = prompt_template.format(
   If you have dietary restrictions or want to modify the dishes in specific ways, please let me know, and I'll do my best to suggest appropriate adjustments.``
 \end{frame}
 
-\begin{frame}{7.2 Qualitative analysis - LLM Reasoning 4 - TODO its bad}
-  Q: ``What temperature should I bake chicken Wellington at?``\\
-  A: ``The recommended baking temperature for chicken Wellington from the provided recipes is 375 degrees
-  for 25 minutes. However, it's important to ensure that the internal temperature of the chicken reaches 165°F (74°C)
-  before serving to ensure it is thoroughly cooked. You can use a meat thermometer to check.``
+\begin{frame}{7.2 Qualitative analysis - LLM Reasoning 4}
+  Q: ``What ingredients are needed to make tacos?``\\
+  A: ``To make tacos based on the retrieved recipes, you will need the following ingredients:
+  - Ground beef or turkey
+  - Taco seasoning
+  - Refried beans (optional)
+  - Garlic (Optional, Document 0)
+  - Salt and pepper (Optional, Document 0)
+  - Taco shells
+  - Cheese
+  - Lettuce
+  - Sour cream (Optional, Document 0)
+  - Onion (Optional, Document 1 and 2)
+  - Black beans (Optional, Document 1)
+  - Diced tomatoes (Optional, Document 1)
+  - Corn (Optional, Document 1)
+  - Water (Optional, Document 2)``
 \end{frame}
 
-\begin{frame}{7.2 Qualitative analysis - LLM Reasoning 5 - TODO its bad}
-  TODO: add to handout
-  Q: ``What's a typical food item from Rhode Island?``\\
-  A: ``A typical food item from Rhode Island is Coffee Milk. It is a popular comfort food and the
-  official state drink of Rhode Island. To make it, you add coffee-flavored syrup to milk in a large glass,
-  stir well, and taste to add more syrup for a stronger coffee taste, if desired. (Answer taken directly from Document 0.)``
-\end{frame}
-% TODO: these propts are not good, they do not  realyl show reasoning in my opiont
+\begin{frame}{7.2 Qualitative analysis - LLM Reasoning 5}
+  Q: ``Give me 3 recipies for cakes``\\
+  A: ``Based on the retrieved recipes, here are three cake recipes:
 
-% DONE UP TO HERE
+  1. **Tartar Sauce Cake**: ...
+
+  2. **Sweet Potato Casserole Cake**: ...
+
+  3. **Zesty Crab Cup Cakes**: ...
+
+  I hope these recipes meet your cake desires. Let me know if there's any other information you're looking for``
+\end{frame}
+
 \begin{frame}[fragile]{7.3 Qualitative analysis - Hallucination}
-  TODO: add to handout
   \begin{itemize}
     \item Standard prompt, but with no documents provided \\
           "How does Gordon Ramsay make his beef Wellington?"
@@ -469,9 +479,9 @@ this classic dish....
   \end{itemize}
 \end{frame}
 
-\begin{frame}{TODO add to handout}
+\begin{frame}{8.2 Neural document embeddings - Heatmap - Wiki}
   \centering
-  \includegraphics[width=0.9\textwidth]{wiki_embeddings_heatmap.png_1747347453.png}
+  \includegraphics[width=0.8\textwidth]{wiki_embeddings_heatmap.png_1747347453.png}
 \end{frame}
 
 
@@ -498,9 +508,9 @@ this classic dish....
   \end{itemize}
 \end{frame}
 
-\begin{frame}{TODO add to handout}
+\begin{frame}{8.2 Neural document embeddings - Heatmap - Recipes}
   \centering
-  \includegraphics[width=0.9\textwidth]{recipies_embeddings_heatmap.png_1747347706.png}
+  \includegraphics[width=0.8\textwidth]{recipies_embeddings_heatmap.png_1747347706.png}
 \end{frame}
 
 
@@ -565,17 +575,17 @@ text_splitter = RecursiveCharacterTextSplitter(
     \centering
     \begin{tabular}{|l|c|c|c|}
       \hline
-      Metric          & With chunking & No chunking   & TF-IDF \\
+      Metric          & With chunking & No chunking & TF-IDF \\
       \hline
-      Macro Precision & 0.203 & 0.310 & 0.130 \\
-      Macro Recall    & 0.133 & 0.352 & 0.201 \\
-      Macro F1        & 0.136 & 0.260 & 0.126 \\
-      Micro Precision & 0.207 & 0.343 & 0.128 \\
-      Micro Recall    & 0.038 & 0.303 & 0.191 \\
-      Micro F1        & 0.064 & 0.322 & 0.153 \\
-      MAP             & 0.154 & 0.216 & -     \\
-      Average DCG     & 3.294 & 1.566 & -     \\
-      Average NDCG    & 0.650 & 0.549 & -     \\
+      Macro Precision & 0.203         & 0.310       & 0.130  \\
+      Macro Recall    & 0.133         & 0.352       & 0.201  \\
+      Macro F1        & 0.136         & 0.260       & 0.126  \\
+      Micro Precision & 0.207         & 0.343       & 0.128  \\
+      Micro Recall    & 0.038         & 0.303       & 0.191  \\
+      Micro F1        & 0.064         & 0.322       & 0.153  \\
+      MAP             & 0.154         & 0.216       & -      \\
+      Average DCG     & 3.294         & 1.566       & -      \\
+      Average NDCG    & 0.650         & 0.549       & -      \\
       \hline
     \end{tabular}
   \end{table}

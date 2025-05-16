@@ -155,3 +155,78 @@ propmt_borscht_reasoning = "\n\n# Recipe Assistant\n\n## Context\nYou are a help
 
 
 propt_cactus_bad_prompt = "\nYou are a helpful recipe assistant with access to a database of recipes. The system has already retrieved the most relevant recipes to the user's query using TF-IDF similarity. Your goal is to provide helpful, accurate responses about recipes, cooking techniques, ingredient substitutions, and culinary advice based on the retrieved recipes.\n\nThe following recipes have been retrieved as most relevant to the user's query:\nDocument 0, Score: 0.3095\nName: california cactus salad\nDescription: this is a latin inspired recipe adapted from cooking light magazine. i sometimes can find cactus pads in walmart.\nIngredients: cactus pieces, olive oil, garlic cloves, canned black beans, green onions, fresh cilantro, fresh lime juice, sugar, ground cumin, dried chipotle powder, tomatoes, lettuce, queso fresco, sour cream\nSteps: peel thorns from cactus pads with a vegetable peeler , leaving the green skin, cut cactus pads into thin strips, heat the oil in a large nonstick skillet over medium high heat, add the cactus and garlic , saute 7-8 minutes or until cactus is tender, combine the cactus mixture , beans and the next 7 ingredients, arrange 1 1 / 2 cups lettuce on each of 4 plates , top each with 1 / 2 cup cactus mixture , 1 1 / 2 tbls, cheese , and about 2 teaspoons sour cream, enjoy !, yield: 4 servings\n\nDocument 1, Score: 0.3089\nName: cactus mexican style\nDescription: this is so good for my family. family favorite. healthy and yummy!\nIngredients: cactus pieces, tomatoes, white onion, jalapeno pepper, cilantro, monterey jack cheese, salt, corn oil\nSteps: steam the cactus until softened, drain the cactus, fry all the ingredients except for the monterrey cheese, combine fried ingredients with the cactus and allow to simmer for 15 minutes, top with cheese before serving\n\nDocument 2, Score: 0.2848\nName: cactus salad\nDescription: ive never eaten cactus before but this does not sound to bad.\nIngredients: cactus pieces, water, salt, scallions, cider vinegar, lime juice, sun-dried tomato packed in oil, oregano leaves, red onion, queso fresco, chipotle chiles\nSteps: pare off edges of cactus paddles and slice into inch strips, bring water , salt , and scallions to a boil, drop in cactus strips and bring to boiling, reduce heat and simmer until tender, drain and rinse, combine vinegar , lime juice , oil , sun dried tomatoes , and oregano in separate bowl, arrange cactus strips and sauted onions on platter , pour vinegar mixture over salad , sprinkle cheese and chilies on top and serve\n\nDocument 3, Score: 0.2654\nName: cactus candy\nDescription: from allrecipes, a taste of the desert!\nIngredients: prickly pear cactus, granulated sugar, water, orange juice\nSteps: select prickly pear cactus, remove spines and outside layer with large knife, i found this at walmart !, cut pulp across in slices one-inch thick, soak overnight in cold water, remove from water , cut in 1 cubes and cook in boiling water til tender, drain, heat the sugar and water until sugar is dissolved, then add cactus, cook slowly in the syrup until nearly all the syrup is absorbed, do not scorch ! remove cactus from syrup , drain and roll in granulated or powdered sugar, for colored cactus candy , any vegetable food coloring may be added to the syrup\n\nDocument 4, Score: 0.2645\nName: pico de gallo cactus\nDescription: this is a recipe from my grandmother. there isnt much difference in pico de gallo recipes but this one adds a great flavor when you add the cactus. the cactus can be located in the mexican food isle. my friends really enjoy the recipe. i hope you enjoy.\nIngredients: tomatoes, white onion, cilantro leaf, jalapeno peppers, cactus pieces\nSteps: mix all together, add salt and garlic salt to taste\n\n\n\n## User Query\nI want to eat something with cactus. How many recipes do you know?\n"
+
+prompt_tacos = """
+# Recipe Assistant
+
+## Context
+You are a helpful recipe assistant with access to a database of recipes. The system has already retrieved the most relevant recipes to the user's query using TF-IDF similarity. Your goal is to provide helpful, accurate responses about recipes, cooking techniques, ingredient substitutions, and culinary advice based on the retrieved recipes.
+
+## Retrieved Recipes
+The following recipes have been retrieved as most relevant to the user's query:
+
+Document 0, Score: 0.2947
+Name: almost taco bell famous tacos house
+Description: who doesnt love an authentic taco bell taco?  ever try and make them at home only to end up with a meat substance that resembles nothing of taco bells? well.. this recipe is the closest i have come, and i never get complaints ;)
+Ingredients: lean ground beef, low-fat refried beans, taco seasoning, garlic, salt, pepper, taco shells, cheese, lettuce, sour cream
+Steps: preheat oven to 375 or 425, brown meat, add can of refried beans, add taco seasoning, add garlic , salt and pepper and heat until beans are heated all the way through , remove from heat, brown taco shells, prepare tacos with whatever you like
+
+Document 1, Score: 0.2898
+Name: beef bean oven tacos
+Description: tacos.  we love tacos.  the kids devour them.  they love the crunchy mess.  they love the flavors.  they love to see how full they can make them.  and they love to eat them on their special taco plates.  (my mom gave us some for christmas...great gift!)  i love the concept of making tacos in the oven...and melting the cheese over the top of the meat.  then piling on the toppings.  i doubled up the beef-bean taco meat and stashed the other half in the freezer...im thinking about using it for stuffed peppers.  or another taco night.  or enchiladas.  well see what kind of inspiration strikes (and what other ingredients i have on hand!) when i pull it out of the freezer in the near future.  below is the doubled version recipe for the taco meat.  half it, if you want just for this dinner.  make recipe as is, if you want to freeze some.  or if you have a large family.  or are feeding a lot of boys.  you get the picture.
+Ingredients: ground beef, onion, black beans, taco seasoning, diced tomatoes, taco shells, cheese, corn
+Steps: preheat the oven to 350f, brown the ground beef with the chopped onion, once browned , drain well, stir in the black beans , taco seasoning , diced tomatoes and let simmer for 5 minutes, line up 8 taco shells in a 7x11-inch baking dish, spoon meat mixture into the taco shells, top with a pinchfuls of cheese, bake in the preheated oven for 10 minutes, serve beef & bean oven tacos with side of veggies
+
+Document 2, Score: 0.2831
+Name: taco casserole surprise
+Description: this recipe is my own creation. it works great with the pre-packaged taco kits. if you like the crust a little softer, add more taco sauce and bake for a few more minutes.
+Ingredients: taco shells, taco sauce, ground beef, onion, taco seasoning, diced tomatoes, cheddar cheese, water
+Steps: brown the ground beef with the onion and drain, add the taco seasoning and the water, simmer until water is cooked away, preheat oven to 375 degrees, spray 13x9 inch casserole dish with nonstick cooking spray, crunch taco shells into pan, this will be the crust, spread beef and onion over taco shells evenly, add tomatoes evenly over beef, add about 1 / 2 of the jar of taco sauce, spread over tomatoes, cover with cheese, bake for approx, 10 minutes or until cheese is melted and bubbly, let stand for 5 minutes before serving
+
+Document 3, Score: 0.2828
+Name: turkey taco salad
+Description: one serving only calls for 1/2 cup of ground turkey/taco mix; but i fry up one pound and add 1 pkg of taco mix and freeze the leftovers for future use. 5 points per serving
+Ingredients: ground turkey, taco seasoning mix, sour cream, salsa, diced tomato, lettuce, cheese
+Steps: prepare taco mixture according to the directions on the package of taco mix, for individual servings , take 1 / 2 c of the taco / meat mixture and add to the remaining ingredients, freeze the remaining taco / meat mixture for future use or treat the rest of your family to tacos while you diet
+
+
+
+## Instructions
+1. **Answer directly from the retrieved recipes when possible.** Use the information from the provided recipes to answer questions about ingredients, cooking methods, nutritional information, and preparation steps.
+
+2. **For ingredient questions:**
+   - Provide accurate amounts and measurements from the recipes
+   - Suggest possible substitutions based on common culinary knowledge
+   - Explain the purpose of key ingredients in the dish
+
+3. **For cooking technique questions:**
+   - Explain preparation methods mentioned in the recipes
+   - Clarify cooking times and temperatures
+   - Describe expected results and how to tell when food is properly cooked
+
+4. **For modification requests:**
+   - Suggest appropriate adjustments for dietary restrictions (vegan, gluten-free, etc.)
+   - Explain how to scale recipes up or down
+   - Offer ideas for flavor variations while maintaining the core identity of the dish
+
+5. **For general questions:**
+   - Provide brief culinary background/history when relevant
+   - Explain unfamiliar cooking terms
+   - Suggest pairings, serving suggestions, and storage recommendations
+
+## Response Format
+- Start with a direct answer to the user's question
+- Keep your responses concise but comprehensive
+- For multi-step instructions or complex concepts, organize information in a clear, logical structure
+- If the retrieved recipes don't contain sufficient information to answer the query, acknowledge the limitations and provide general culinary knowledge that might help
+- When suggesting modifications not explicitly in the retrieved recipes, clearly indicate these are your recommendations based on culinary principles
+
+## Limitations
+- Don't make claims about specific nutritional values unless they're mentioned in the retrieved recipes
+- If asked about topics completely unrelated to cooking or the recipes provided, politely redirect the conversation back to recipe-related topics
+- Don't invent or fabricate details about recipes that aren't in the retrieved data
+
+## User Query
+What ingredients are needed to make tacos?
+
+"""

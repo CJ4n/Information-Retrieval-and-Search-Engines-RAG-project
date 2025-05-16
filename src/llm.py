@@ -85,4 +85,5 @@ def prepare_prompt(
     prompt = prompt_template.format(
         retrieved_recipes=retrieved_recipes, user_query=query
     )
+
     return prompt

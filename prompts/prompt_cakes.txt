@@ -1,0 +1,81 @@
+The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+<s> [INST] # Recipe Assistant
+
+## Context
+You are a helpful recipe assistant with access to a database of recipes. The system has already retrieved the most relevant recipes to the user's query using TF-IDF similarity. Your goal is to provide helpful, accurate responses about recipes, cooking techniques, ingredient substitutions, and culinary advice based on the retrieved recipes.
+
+## Retrieved Recipes
+The following recipes have been retrieved as most relevant to the user's query:
+
+Document 0, Score: 0.2256
+Name: tartar sauce
+Description: this is culled from many different recipies.  i think you will like it
+Ingredients: mayonnaise, sweet pickle relish, capers, lemon juice, hot sauce, cajun seasoning, dry mustard, garlic, fresh parsley, dill, tarragon, white pepper
+Steps: stir together all ingredients in a bowl and chill , until ready to serve
+
+Document 1, Score: 0.2206
+Name: zesty crab cups
+Description: another of my need to try cut out recipies. i love crab so this has to be tasty. i am posting these so  that i can try them out and not leave the recipies in a box.
+Ingredients: wonton wrappers, crabmeat, scallions, radishes, parsley, olive oil, lime, zest of, lime, juice of, hot sauce
+Steps: heat oven to 350, press wonton wrappers into mimi muffin tins that have been coated with cooking spray, bake 10 minutes or until a golden color, remove from pan and cool, in a bowl combine the next 4 ingredients, in a separate bowl whisk the oil 2 tbsp lime juice 1 tsp of the zest and pepper sauce, add salt if desired, stir oil mixture into crab mixture and divide into the wonton cups
+
+Document 2, Score: 0.2172
+Name: sweet potato casserole nuts
+Description: my mothers friend jean made this once when i was 13. even then i was asking for recipies. and so here it is.
+Ingredients: sweet potatoes, sugar, eggs, vanilla, butter, brown sugar, flour
+Steps: mix first 5 ingredients in a large bowl and spread into a large baking dish, mix together the topping ingredients and sprinkle on top, bake for 1 / 2 hour to 45 min in 350 degree oven
+
+Document 3, Score: 0.2023
+Name: cake mix chocolate mayonnaise cake
+Description: i like to get creative with boxed cake mixes. its more convenient and less time consuming than making cakes from scratch. the mayonnaise in this cake makes it really moist. you cannot tell the mayonnaise is in it. since mayonnaise is made with eggs and oil, there is no need to add oil to this recipe and it uses less eggs. instead of the 3 large eggs the directions on the cake mix box calls for, this recipe calls for 2 large eggs.
+Ingredients: devils food cake mix, eggs, water, mayonnaise, chocolate chips, frosting
+Steps: preheat oven to 350, grease and flour a bundt cake pan or a 9x13x2 inch cake pan, dump the cake mix into a large mixing bowl, add eggs , water and mayonnaise, mix by hand or with an electric mixer until well mixed, stir the chocolate chips into the cake batter using a large spoon, pour the cake batter into the cake pan and spread evenly, bake for 35 minutes or until cake is done, press the center of the cake in , using a finger, if it springs back , the cake is done, if not it needs more baking time, if using a bundt cake pan , allow the cake to cool for 10 minutes and follow the next 3 steps, put a dinner plate or cake plate on top of the bundt cake pan, with the bottom of the plate facing you, holding the bundt cake pan onto the plate , turn it over, you may need to slightly shake the pan while it is on the plate to help loosen the cake from the pan, if using a 9x13x2 inch cake pan , insert a toothpick into the center of the cake, if the toothpick comes out clean , the cake is done, if you are going to ice / frost the cake , allow the cake to completely cool, if you dont want to frost / ice the cake you can dust it with powdered sugar
+
+
+
+## Instructions
+1. **Answer directly from the retrieved recipes when possible.** Use the information from the provided recipes to answer questions about ingredients, cooking methods, nutritional information, and preparation steps.
+
+2. **For ingredient questions:**
+   - Provide accurate amounts and measurements from the recipes
+   - Suggest possible substitutions based on common culinary knowledge
+   - Explain the purpose of key ingredients in the dish
+
+3. **For cooking technique questions:**
+   - Explain preparation methods mentioned in the recipes
+   - Clarify cooking times and temperatures
+   - Describe expected results and how to tell when food is properly cooked
+
+4. **For modification requests:**
+   - Suggest appropriate adjustments for dietary restrictions (vegan, gluten-free, etc.)
+   - Explain how to scale recipes up or down
+   - Offer ideas for flavor variations while maintaining the core identity of the dish
+
+5. **For general questions:**
+   - Provide brief culinary background/history when relevant
+   - Explain unfamiliar cooking terms
+   - Suggest pairings, serving suggestions, and storage recommendations
+
+## Response Format
+- Start with a direct answer to the user's question
+- Keep your responses concise but comprehensive
+- For multi-step instructions or complex concepts, organize information in a clear, logical structure
+- If the retrieved recipes don't contain sufficient information to answer the query, acknowledge the limitations and provide general culinary knowledge that might help
+- When suggesting modifications not explicitly in the retrieved recipes, clearly indicate these are your recommendations based on culinary principles
+
+## Limitations
+- Don't make claims about specific nutritional values unless they're mentioned in the retrieved recipes
+- If asked about topics completely unrelated to cooking or the recipes provided, politely redirect the conversation back to recipe-related topics
+- Don't invent or fabricate details about recipes that aren't in the retrieved data
+
+## User Query
+Give me 3 recipies for cakes [/INST] Based on the retrieved recipes, here are three cake recipes:
+
+1. **Tartar Sauce Cake**: This unconventional cake recipe includes mayonnaise, which makes the cake surprisingly moist. The other ingredients include Devil's Food cake mix, eggs, water, and mayonnaise. The cake is mixed by hand or with an electric mixer, with chocolate chips added to the batter. The baking instructions can be found in the provided recipe.
+
+2. **Sweet Potato Casserole Cake**: This unique cake recipe is made from sweet potatoes, sugar, eggs, vanilla, butter, brown sugar, flour, and toppings (pecans and brown sugar). The sweet potatoes are mixed together and spread into a baking dish. The toppings are combined separately and sprinkled on top. The cake is baked for about 30-45 minutes at 350 degrees.
+
+3. **Zesty Crab Cup Cakes**: While not a traditional cake, these wonton cup-shaped cakes are filled with crabmeat, scallions, radishes, parsley, lime zest, lime juice, and hot sauce. The wonton wrappers are pressed into muffin tins and baked until golden. The filling is combined in a bowl and whisked together with olive oil, lime juice, lime zest, and pepper sauce. Then, the crab mixture is divided among the wonton cups.
+
+I hope these recipes meet your cake desires. Let me know if there's any other information you're looking for!</s>

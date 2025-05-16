@@ -1,0 +1,49 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}Disclaimer}{3}{section.1}%
+\contentsline {section}{\numberline {2}Architecture}{3}{section.2}%
+\contentsline {section}{\numberline {3}Term Vocabulary}{3}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Document Preprocessing}{3}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Term Vocabulary - TF-IDF Vectorization}{4}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Term Vocabulary - Chosen fields}{4}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Retrieval - Hyperparameters Search}{4}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Retrieval - Hyperparameters Search - TF-IDF}{4}{subsection.4.1}%
+\contentsline {section}{\numberline {5}Qualitative analysis - Information Retrieval}{4}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Qualitative analysis - System always returns documents}{4}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Qualitative analysis - Ignored context}{4}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Qualitative analysis - Rare words}{6}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Qualitative analysis - Typos}{6}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Qualitative analysis - Negation}{6}{subsection.5.5}%
+\contentsline {section}{\numberline {6}Prompt}{6}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Prompt - LLM Instructions - Good}{6}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Prompt - LLM Instructions - Bad}{6}{subsection.6.2}%
+\contentsline {section}{\numberline {7}LLM Evaluation}{7}{section.7}%
+\contentsline {subsection}{\numberline {7.1}LLM Reasoning - Question}{7}{subsection.7.1}%
+\contentsline {subsubsection}{\numberline {7.1.1}LLM Reasoning - Context}{7}{subsubsection.7.1.1}%
+\contentsline {subsubsection}{\numberline {7.1.2}LLM Reasoning - Response}{7}{subsubsection.7.1.2}%
+\contentsline {subsection}{\numberline {7.2}LLM Reasoning - Question}{7}{subsection.7.2}%
+\contentsline {subsubsection}{\numberline {7.2.1}LLM Reasoning - Context}{8}{subsubsection.7.2.1}%
+\contentsline {subsubsection}{\numberline {7.2.2}LLM Reasoning - Response}{8}{subsubsection.7.2.2}%
+\contentsline {subsection}{\numberline {7.3}LLM Reasoning - Question}{8}{subsection.7.3}%
+\contentsline {subsubsection}{\numberline {7.3.1}LLM Reasoning - Context}{9}{subsubsection.7.3.1}%
+\contentsline {subsubsection}{\numberline {7.3.2}LLM Reasoning - Response}{10}{subsubsection.7.3.2}%
+\contentsline {subsection}{\numberline {7.4}LLM Reasoning}{10}{subsection.7.4}%
+\contentsline {subsubsection}{\numberline {7.4.1}LLM Reasoning - Question}{10}{subsubsection.7.4.1}%
+\contentsline {subsubsection}{\numberline {7.4.2}LLM Reasoning - Context}{10}{subsubsection.7.4.2}%
+\contentsline {subsubsection}{\numberline {7.4.3}LLM Reasoning - Response}{11}{subsubsection.7.4.3}%
+\contentsline {subsection}{\numberline {7.5}LLM Reasoning}{11}{subsection.7.5}%
+\contentsline {subsubsection}{\numberline {7.5.1}LLM Reasoning - Question}{11}{subsubsection.7.5.1}%
+\contentsline {subsubsection}{\numberline {7.5.2}LLM Reasoning - Context}{11}{subsubsection.7.5.2}%
+\contentsline {subsubsection}{\numberline {7.5.3}LLM Reasoning - Response}{12}{subsubsection.7.5.3}%
+\contentsline {subsection}{\numberline {7.6}LLM Reasoning - Hallucination - No Documents Provided- How does Gordon Ramsay make his beef Wellington?}{12}{subsection.7.6}%
+\contentsline {subsection}{\numberline {7.7}LLM Reasoning - Prompt with scores - How to make pizza?}{12}{subsection.7.7}%
+\contentsline {subsection}{\numberline {7.8}LLM Reasoning - Prompt without scores - How to make pizza?}{13}{subsection.7.8}%
+\contentsline {section}{\numberline {8}Neural Embeddings Evaluation}{13}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Grid Search - Wiki Embeddings}{13}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Grid Search - Recipe Embeddings}{13}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Compression}{13}{subsection.8.3}%
+\contentsline {section}{\numberline {9}Security}{13}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Security - Adversarial Prompt - Attack}{13}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Security - Adversarial Prompt - Result}{13}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}Security - Adversarial Prompt - Defense}{16}{subsection.9.3}%
+\contentsline {subsubsection}{\numberline {9.3.1}Security - Adversarial Prompt - Attack with defense}{16}{subsubsection.9.3.1}%
+\contentsline {subsection}{\numberline {9.4}Security - Adversarial Prompt - Attack with defense - Result}{16}{subsection.9.4}%

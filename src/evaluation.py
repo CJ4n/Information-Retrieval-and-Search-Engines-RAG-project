@@ -131,7 +131,6 @@ def evaluate_ir_system(
             query_text, recipies, recipe_ids, k, threshold, vec_uni, vec_bi, X_uni, X_bi
         )
         retrieved_doc_ids = [result[1] for result in results]
-        # TODO: understand how its calcualted
         query_metrics = calculate_precision_recall_f1_optimized(
             relevant_doc_ids, retrieved_doc_ids
         )
@@ -139,7 +138,6 @@ def evaluate_ir_system(
 
         all_relevant_doc_ids.append(relevant_doc_ids)
         all_retrieved_doc_ids.append(retrieved_doc_ids)
-    # TODO: understand how its calcualted
 
     macro_metrics = calculate_macro_averages(metrics_per_query)
     micro_metrics = calculate_micro_averages_optimized(

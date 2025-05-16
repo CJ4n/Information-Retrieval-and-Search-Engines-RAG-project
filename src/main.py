@@ -22,7 +22,6 @@ from part2.utils import (
     load_data_part_1,
 )
 from prompts import *
-from prompts import adversarial_with_defense_prompt, good_prompt
 from retrieve import *
 from utils import *
 
@@ -103,6 +102,8 @@ def experiment_run_all_prompt_generation():
         "prompt_with_scores": prompt_with_scores,
         "prompt_without_scores": prompt_without_scores,
         "prompot_wihtout_documents": prompot_wihtout_documents,
+        "prompt_taco": prompt_tacos,
+        "prompt_cakes": prompt_cakes,
     }
 
     for prompt_name, prompt in prompts.items():
@@ -408,7 +409,9 @@ if __name__ == "__main__":
     # experiment_tokenization()
     # experiment_parameter_search_with_embeddings_wiki()
     # experiment_parameter_search_with_embeddings_recipies()
-    experiment_metrics_with_embeddings_wiki_data()  # TO RUN
-    experiment_metrics_with_embeddings_recipies_data()  # TO RUN
+    # experiment_metrics_with_embeddings_wiki_data()  # TO RUN
+    # experiment_metrics_with_embeddings_recipies_data()  # TO RUN
     # experiment_compression()
     # experiment_adversarial_attack()
+
+
