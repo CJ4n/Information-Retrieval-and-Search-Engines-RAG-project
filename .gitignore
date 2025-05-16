@@ -57,3 +57,13 @@ X_uni.pkl
 slides.synctex.gz
 *.zip
 part1_embeddings.npy
+IRSE-template.aux
+IRSE-template.bbl
+IRSE-template.blg
+IRSE-template.bcf
+IRSE-template.fdb_latexmk
+IRSE-template.fls
+IRSE-template.log
+IRSE-template.out
+IRSE-template.synctex.gz
+IRSE-template.run.xml

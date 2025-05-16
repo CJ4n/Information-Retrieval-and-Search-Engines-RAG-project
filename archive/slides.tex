@@ -15,7 +15,9 @@
 \end{frame}
 
 \begin{frame}{Outline}
-  \tableofcontents
+  % \tableofcontents
+  TODO: write what is strucutre of presentation
+  TODO: tell  wher aer the transitons
 \end{frame}
 \begin{frame}{TODOS}
   \begin{itemize}
@@ -25,7 +27,7 @@
 
 \begin{frame}{1. Architecture}
   \centering
-  \includesvg[width=0.9\textwidth]{architecture.svg}
+  \includesvg[width=0.9\textwidth]{new_architecture.svg}
 \end{frame}
 
 \begin{frame}{2. Term Vocabulary}
@@ -110,7 +112,7 @@ stop_words.update(
     \item steps
   \end{itemize}
 
-  Evaluated combinations:
+  Evaluated combinations (K=40, threshold=0.2):
   \begin{itemize}
     \item name, description, ingredients, steps: macro F1: 0.126
     \item description, ingredients, steps: macro F1: 0.095
@@ -122,7 +124,7 @@ stop_words.update(
 \end{frame}
 
 \begin{frame}[fragile]{3.2 Document Embedding - Query Preprocessing}
-  The same approche as for embedding documents
+  For embeddings, the same processing is used as for embedding documents
   \begin{verbatim}
   def retrieve_documents(query_text, recipies,
                     recipe_ids, k, threshold):
@@ -253,7 +255,7 @@ def calculate_average_precision(relevant_doc_ids,
 \end{frame}
 
 \begin{frame} {5.3 Qualitative analysis - Information Retrieval}
-  Problem: Can't handle extermalyl rare words, like "Paraguay"\\
+  Problem: Can't handle externally rare words, like "Paraguay"\\
   Prompt: "Do you know any soups from Paraguay?"\\
   Output: Did not returned any recipe with word "paraguay"
 \end{frame}
@@ -261,13 +263,13 @@ def calculate_average_precision(relevant_doc_ids,
 \begin{frame} {5.4 Qualitative analysis - Information Retrieval}
   Problem: TF-IDF doesn't handle typos\\
   Prompt: "How do you make \textbf{piza}"\\
-  Output: Returned single recipe what contains a lot of words "make", but no "pizza"
+  Output: Returned single recipe what contains a lot of words "make", but not "pizza"
 \end{frame}
 
 \begin{frame} {5.5 Qualitative analysis - Information Retrieval}
   Problem: Can't capture negation\\
   Prompt:  "I do not want to eat pizza, what can I eat instead?"\\
-  Output: 36/40 results were about pizza % and they are about making pizza
+  Output: 36/40 results were about making pizza
 \end{frame}
 
 \begin{frame}{6. Prompt}
@@ -275,6 +277,7 @@ def calculate_average_precision(relevant_doc_ids,
 \end{frame}
 
 \begin{frame}[fragile]{6.1 Prompt - LLM Instructions - Good}
+  Prompt follows the following structure:
   \begin{itemize}
     \item General context and LLM's goal
     \item Instructions per type of question
@@ -283,7 +286,6 @@ def calculate_average_precision(relevant_doc_ids,
   \end{itemize}
 
   See handout for full prompt
-  TODO: add full prompt in handout
 \end{frame}
 
 \begin{frame}[fragile]{6.1 Prompt - LLM Instructions - Bad}
@@ -317,7 +319,9 @@ to the user's query:
 
 \begin{frame}[fragile]{6.2 Prompt - Fields used}
   \begin{verbatim}
-results = retrieve_documents(query, recipies, recipe_ids, k=k, threshold=threshold)
+results = retrieve_documents(query, recipies, recipe_ids, 
+k=k, threshold=threshold)
+
 retrieved_recipes = ""
 
 for idx, (recipe, recipe_id, score) in enumerate(results):
@@ -348,12 +352,8 @@ prompt = prompt_template.format(
 \begin{frame}{7.2 Qualitative analysis - LLM Reasoning 1}
   TODO: add to handout
   Q: ``I'm looking for a spicy pasta sauce, but I forgot the name. I think it was related to Arabs?``\\
-  A: ``Based on the retrieved recipes, none of them directly mention Arab origin. However, I can help you with a spicy pasta sauce recipe.\\
-
-  One of the recipes in the list, called "spicy pasta sauce," includes ingredients such as spicy sausage, pasta sauce, rotel tomatoes \& chilies,
-  minced garlic cloves, and parmesan cheese. To make the sauce, you first cook the spicy sausage in a skillet until no longer pink,
-  then drain it and wipe out the skillet. Return the sausage to the skillet and add the pasta sauce, rotel, and garlic.
-  Simmer for ten minutes and stir in the parmesan cheese. This recipe should result in a spicy pasta sauce with a rich and flavorful taste.``
+  A: ``Based on the retrieved recipes, none of them directly mention Arab origin. However,
+  I can help you with a spicy pasta sauce recipe....``
 \end{frame}
 
 \begin{frame}{7.2 Qualitative analysis - LLM Reasoning 2}
@@ -376,14 +376,14 @@ prompt = prompt_template.format(
   If you have dietary restrictions or want to modify the dishes in specific ways, please let me know, and I'll do my best to suggest appropriate adjustments.``
 \end{frame}
 
-\begin{frame}{7.2 Qualitative analysis - LLM Reasoning 4}
+\begin{frame}{7.2 Qualitative analysis - LLM Reasoning 4 - TODO its bad}
   Q: ``What temperature should I bake chicken Wellington at?``\\
   A: ``The recommended baking temperature for chicken Wellington from the provided recipes is 375 degrees
   for 25 minutes. However, it's important to ensure that the internal temperature of the chicken reaches 165°F (74°C)
   before serving to ensure it is thoroughly cooked. You can use a meat thermometer to check.``
 \end{frame}
 
-\begin{frame}{7.2 Qualitative analysis - LLM Reasoning 5}
+\begin{frame}{7.2 Qualitative analysis - LLM Reasoning 5 - TODO its bad}
   TODO: add to handout
   Q: ``What's a typical food item from Rhode Island?``\\
   A: ``A typical food item from Rhode Island is Coffee Milk. It is a popular comfort food and the
@@ -398,10 +398,10 @@ prompt = prompt_template.format(
   \begin{itemize}
     \item Standard prompt, but with no documents provided \\
           "How does Gordon Ramsay make his beef Wellington?"
-    \item Yet LLM answered with recipe claiming they come from our database
-    \item Which suggest that it did not followed rules
-    \item Though at the end it says that it does not have that information in our database
-          about Gordon Ramsay's recipe
+          % \item Yet LLM answered with recipe claiming they come from our database
+          %\item Which suggest that it did not followed rules
+          % \item Though at the end it says that it does not have that information in our database
+          %   about Gordon Ramsay's recipe
   \end{itemize}
   \begin{verbatim}
 Based on the recipes in our database, Beef Wellington is 
@@ -450,12 +450,18 @@ this classic dish....
 
 
 \begin{frame}{8.2 Neural document embeddings - nDCG}
-  TODO
+  \[ DCG = \sum_{k=1}^{n} G_k \cdot D_k,\]
+  \[G_k = 2^{y_k} - 1 , \]
+  \[D_k = \frac{1}{\log_2(k+1)},  \]
+  \[nDCG = \frac{DCG}{IDCG},\]
+  where $y_k$ is the relevance of the $k$-th document.
+  $IDCG$ is the DCG if all documents are sorted by relevance.
+
+  nDCG for Wiki dataset: 0.748
 \end{frame}
 
 
 \begin{frame}{8.2 Neural document embeddings - hyperparams - Wiki}
-  TODO again
   Grid search over param space and wiki dataset
   \begin{itemize}
     \item thresholds=np.arange(0.3, 0.60, 0.05),
@@ -463,7 +469,7 @@ this classic dish....
   \end{itemize}
 \end{frame}
 
-\begin{frame}
+\begin{frame}{TODO add to handout}
   \centering
   \includegraphics[width=0.9\textwidth]{wiki_embeddings_heatmap.png_1747347453.png}
 \end{frame}
@@ -492,7 +498,7 @@ this classic dish....
   \end{itemize}
 \end{frame}
 
-\begin{frame}
+\begin{frame}{TODO add to handout}
   \centering
   \includegraphics[width=0.9\textwidth]{recipies_embeddings_heatmap.png_1747347706.png}
 \end{frame}
@@ -524,16 +530,18 @@ this classic dish....
 \end{frame}
 
 \begin{frame}{9.1 Compression - Long Dcouments}
-  Information Retrieval
+  Information Retrieval:
   \begin{itemize}
     \item Documents cover multiple topics
     \item Contain lots of words - TF-IDF
-    \item Limited context widnow - embeddings
+    \item Limited context window - embeddings
   \end{itemize}
-  LLM
+  LLM:
   \begin{itemize}
-    \item Limited context widnow
+    \item Limited context window
     \item Needle in a haystack
+    \item Document may contain irrelevant information
+    \item Document may contain contradictory information
   \end{itemize}
 \end{frame}
 
@@ -553,18 +561,24 @@ text_splitter = RecursiveCharacterTextSplitter(
 
 \begin{frame}{9.2 Compression - Solution - Evaluation - Recipies}
   The evaluation results for the compression solution are as follows:
-  \\ TODO: comapre with normal embeddings
-  \begin{itemize}
-    \item Macro Precision: 0.203
-    \item Macro Recall: 0.133
-    \item Macro F1: 0.136
-    \item Micro Precision: 0.207
-    \item Micro Recall: 0.038
-    \item Micro F1: 0.064
-    \item MAP: 0.154
-    \item Average DCG: 3.294
-    \item Average NDCG: 0.650
-  \end{itemize}
+  \begin{table}
+    \centering
+    \begin{tabular}{|l|c|c|c|}
+      \hline
+      Metric          & With chunking & No chunking   & TF-IDF \\
+      \hline
+      Macro Precision & 0.203 & 0.310 & 0.130 \\
+      Macro Recall    & 0.133 & 0.352 & 0.201 \\
+      Macro F1        & 0.136 & 0.260 & 0.126 \\
+      Micro Precision & 0.207 & 0.343 & 0.128 \\
+      Micro Recall    & 0.038 & 0.303 & 0.191 \\
+      Micro F1        & 0.064 & 0.322 & 0.153 \\
+      MAP             & 0.154 & 0.216 & -     \\
+      Average DCG     & 3.294 & 1.566 & -     \\
+      Average NDCG    & 0.650 & 0.549 & -     \\
+      \hline
+    \end{tabular}
+  \end{table}
 \end{frame}
 
 
@@ -573,9 +587,9 @@ text_splitter = RecursiveCharacterTextSplitter(
 
 \begin{frame}[fragile]{9.1 Security - Prompt Injection}
   \begin{itemize}
-    \item I tried to prompt inject to make LLM generate code for Dijkstra's algorithm
-    \item I manged to bypass model's instructions and get the code
-    \item I used such adversarial prompt:
+    \item Prompt inject to make LLM generate code for Dijkstra's algorithm
+    \item Managed to bypass model's instructions and get the code
+    \item Adversarial prompt:
   \end{itemize}
 
   \begin{verbatim}
@@ -646,7 +660,7 @@ our database.
   \begin{itemize}
     \item Neural embeddings are not the only way to represent documents
     \item How hard it is to fine-tune retrieval pipeline
-    \item I should have planned experiments up front
+    \item I should have planned and structured experiments up front
   \end{itemize}
 \end{frame}
 
