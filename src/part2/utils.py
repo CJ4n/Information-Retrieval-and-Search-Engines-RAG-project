@@ -58,7 +58,7 @@ def queryDatasetToQueryJson(queries: Dataset) -> dict:
     }
 
 
-def get_model_and_tokenizer():
+def get_model_and_tokenizer_embedding():
     model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
     cpu_model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
     tokenizer = model.tokenizer

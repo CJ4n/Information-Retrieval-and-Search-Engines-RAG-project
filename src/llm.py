@@ -21,7 +21,7 @@ bnb_config = transformers.BitsAndBytesConfig(
 model, tokenizer = None, None
 
 
-def get_model_and_tokenizer():
+def get_model_and_tokenizer_llm():
     global model, tokenizer
     if model is None or tokenizer is None:
         model = AutoModelForCausalLM.from_pretrained(
@@ -35,7 +35,7 @@ def get_model_and_tokenizer():
 
 
 def generate_response(prompt):
-    model, tokenizer = get_model_and_tokenizer()
+    model, tokenizer = get_model_and_tokenizer_llm()
 
     encoded_prompt = tokenizer.apply_chat_template(
         [{"role": "user", "content": prompt}], return_tensors="pt"

@@ -17,7 +17,7 @@ from part2.utils import (
     check_tokenization,
     embed_documents_part_1,
     embed_documents_part_2,
-    get_model_and_tokenizer,
+    get_model_and_tokenizer_embedding,
     load_data_part2,
     load_data_part_1,
 )
@@ -41,7 +41,7 @@ BEST_THRESHOLD_EMBEDDINGS_WIKI = 0.40
 BEST_K_EMBEDDINGS_RECIPIES = 12
 BEST_THRESHOLD_EMBEDDINGS_RECIPIES = 0.45
 BEST_K_TFIDF = 40
-BEST_THRESHOLD_TFIDF = 0.45
+BEST_THRESHOLD_TFIDF = 0.2
 
 
 def evaluate_combination(combination, df, queries_data, K, threshold):
@@ -187,7 +187,7 @@ def experiment_drawbacks_of_tfidf():
 
 
 def experiment_tokenization():
-    _, _, tokenizer = get_model_and_tokenizer()
+    _, _, tokenizer = get_model_and_tokenizer_embedding()
     check_tokenization(
         "their settlement area is referred to as kashubia they speak the kashubian language which is classified either as a separate language closely related to polish or as a polish dialect analogously to their linguistic classification the kashubs are considered either an ethnic or a linguistic community the kashubs are closely related to the poles the kashubs are grouped with the slovincians as pomeranians similarly the slovincian now extinct and kashubian languages are grouped as pomeranian languages with slovincian also known as eba kashubian either a distinct language closely related to kashubian or a kashubian dialect among larger cities gdynia gdini contains the largest proportion of people declaring kashubian origin however the biggest city of the kashubia region is gda sk gdu sk the capital of the pomeranian voivodeship between 80 3 and 93 9 of the people in towns such as linia sierakowice szemud kartuzy chmielno ukowo etc are of kashubian descent the traditional occupations of the kashubs have been agriculture and fishing these have been joined by the service and hospitality industries as well as agrotourism the main organization that maintains the kashubian identity is the kashubian pomeranian association the recently formed odroda is also dedicated to the renewal",
         tokenizer,
@@ -199,10 +199,10 @@ def experiment_embedding_out_of_vocabulary():
     print("#########################")
     print("Running experiment to find out of vocabulary words")
     print("#########################")
+    model, cpu_model, tokenizer = get_model_and_tokenizer_embedding()
     documents, test_queries, train_queries, validation_queries, document_id_to_idx = (
-        load_data_part2()
+        load_data_part2(cpu_model)
     )
-    model, cpu_model, tokenizer = get_model_and_tokenizer()
     wiki_embeddings = embed_documents_part_2(model, documents)
 
     query_embedding = cpu_model.encode("kashubian")
@@ -221,7 +221,7 @@ def experiment_metrics_with_embeddings_wiki_data():
     print("#########################")
     print("Running experiment to calculate metrics with embeddings for wiki data")
     print("#########################")
-    model, cpu_model, tokenizer = get_model_and_tokenizer()
+    model, cpu_model, tokenizer = get_model_and_tokenizer_embedding()
     documents, test_queries, train_queries, validation_queries, document_id_to_idx = (
         load_data_part2(cpu_model)
     )
@@ -245,7 +245,7 @@ def experiment_parameter_search_with_embeddings_wiki():
     print("#########################")
     print("Running experiment to find best hyperparams with embeddings for wiki data")
     print("#########################")
-    model, cpu_model, tokenizer = get_model_and_tokenizer()
+    model, cpu_model, tokenizer = get_model_and_tokenizer_embedding()
     documents, test_queries, train_queries, validation_queries, document_id_to_idx = (
         load_data_part2(cpu_model)
     )
@@ -265,7 +265,7 @@ def experiment_parameter_search_with_embeddings_recipies():
     print("#########################")
     print("Running experiment to find best hyperparams with embeddings for part 1 data")
     print("#########################")
-    model, cpu_model, tokenizer = get_model_and_tokenizer()
+    model, cpu_model, tokenizer = get_model_and_tokenizer_embedding()
     queries, recipies_cooking, recipe_ids, df = load_data_part_1(cpu_model)
     embeddings = embed_documents_part_1(model, recipies_cooking)
     create_parameter_heatmap_part2(
@@ -283,7 +283,7 @@ def experiment_metrics_with_embeddings_recipies_data():
     print("#########################")
     print("Running experiment to calculate metrics with embeddings for part 1 data")
     print("#########################")
-    model, cpu_model, tokenizer = get_model_and_tokenizer()
+    model, cpu_model, tokenizer = get_model_and_tokenizer_embedding()
     queries, recipies_cooking, recipe_ids, df = load_data_part_1(cpu_model)
     embeddings = embed_documents_part_1(model, recipies_cooking)
 
@@ -305,7 +305,7 @@ def experiment_compression():
     print("#########################")
     print("Running experiment to evaluate compression")
     print("#########################")
-    model, cpu_model, tokenizer = get_model_and_tokenizer()
+    model, cpu_model, tokenizer = get_model_and_tokenizer_embedding()
     documents, test_queries, train_queries, validation_queries, document_id_to_idx = (
         load_data_part2(cpu_model)
     )
@@ -357,7 +357,7 @@ def experiment_adversarial_attack():
     print("#########################")
     print("Running experiment to evaluate adversarial attack")
     print("#########################")
-    model, cpu_model, tokenizer = get_model_and_tokenizer()
+    model, cpu_model, tokenizer = get_model_and_tokenizer_embedding()
     _, recipies_cooking, recipe_ids, df = load_data_part_1(cpu_model)
     embeddings = embed_documents_part_1(model, recipies_cooking)
 
@@ -400,18 +400,20 @@ def experiment_adversarial_attack():
 
 
 if __name__ == "__main__":
+    # NOTE: Uncomment exerpimetns to ru them as needed
+
     # experiment_which_fields_are_important()
     # experiment_find_best_hyperparams()
     # experiment_calculate_metrics()
     # experiment_drawbacks_of_tfidf()
-    # experiment_run_all_prompt_generation()
+    # experiment_run_all_prompt_generation() # Requirees good GPU to run at all (RAM)
     # experiment_embedding_out_of_vocabulary()
     # experiment_tokenization()
-    # experiment_parameter_search_with_embeddings_wiki()
-    # experiment_parameter_search_with_embeddings_recipies()
+    # experiment_parameter_search_with_embeddings_wiki() # Timing: ~2h
+    # experiment_parameter_search_with_embeddings_recipies() # Timing: ~5min
     # experiment_metrics_with_embeddings_wiki_data()  # TO RUN
     # experiment_metrics_with_embeddings_recipies_data()  # TO RUN
-    # experiment_compression()
-    # experiment_adversarial_attack()
+    # experiment_compression() # Timing: ~8min
+    # experiment_adversarial_attack() # Requires very good GPU to run at all (RAM)
 
-
+    print("Done")

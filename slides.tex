@@ -4,7 +4,7 @@
 \usecolortheme{default}
 \usepackage{svg}
 \usepackage{makecell}
-\title{IRSE Projecet}
+\title{IRSE Project Presentation}
 \author{Jan Cichomski (r1026448)}
 \date{\today}
 
@@ -14,11 +14,40 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Outline}
-  % \tableofcontents
-  TODO: write what is strucutre of presentation
-  TODO: tell  wher aer the transitons
+\begin{frame}{RAG components}
+  \begin{itemize}
+    \item Indexing: TF-IDF (Sklearn) \& Neural Embeddings (all-MiniLM-L6-v2)
+    \item Retrieval: Cosine Similarity
+    \item Generation: LLM (mistralai/Mistral-7B-Instruct-v0.2)
+  \end{itemize}
 \end{frame}
+
+\begin{frame}{Dataset}
+  \begin{itemize}
+    \item Recipes dataset
+    \item Wiki dataset
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Experiments}
+  \begin{itemize}
+    % Start of Selection
+    \item Which Fields Are Important?
+    \item Find Best Hyperparameters
+    \item Calculate Metrics for Best Hyperparams
+    \item Drawbacks of TF-IDF
+    \item Text Generation
+    \item Embedding Out of Vocabulary Terms
+    \item Tokenization
+    \item Parameter Search with neural embeddings for Wiki data
+    \item Parameter Search with neural embeddings for Recipes data
+    \item Metrics with neural embeddings for Wiki data
+    \item Metrics with neural embeddings for Recipes data
+    \item Document Compression
+    \item Adversarial Attack
+  \end{itemize}
+\end{frame}
+
 \begin{frame}{TODOS}
   \begin{itemize}
     \item  why have i chose F1 as a metric?
@@ -31,7 +60,6 @@
 \end{frame}
 
 \begin{frame}{2. Term Vocabulary}
-
 \end{frame}
 
 \begin{frame}{2.1 Term Vocabulary - Document Preprocessing}
@@ -135,7 +163,7 @@ stop_words.update(
 
 \begin{frame}{3.3 Document Embedding - Edge Cases}
   \begin{itemize}
-    \item When query has no terms from vocabulary
+    \item When query has no terms from vocabulary:
           \begin{itemize}
             \item TF-IDF produces zero vector for the query
             \item Cosine similarity returns 0 for all documents
@@ -159,10 +187,6 @@ stop_words.update(
 \end{frame}
 
 \begin{frame}[fragile]{4.2 Retrieval - Hyperparameters}
-  \begin{itemize}
-    \item Max number of returned documents: 40
-    \item Minimum threshold for cosine similarity: 0.2
-  \end{itemize}
   Grid search over param space and maximize macro F1 score.
 
   \begin{verbatim}
@@ -179,6 +203,12 @@ def create_parameter_heatmap(queries, recipes, recipe_ids):
 \end{frame}
 
 \begin{frame}{4.3 Retrieval - Evaluation Metrics}
+  Best hyperparameters:
+  \begin{itemize}
+    \item Max number of returned documents: 40
+    \item Minimum threshold for cosine similarity: 0.2
+  \end{itemize}
+  Metrics:
   \begin{itemize}
     \item Macro Precision: 0.130
     \item Macro Recall: 0.201
@@ -342,12 +372,15 @@ prompt = prompt_template.format(
 
 \begin{frame}{7.1 Qualitative analysis - LLM \& RAG}
   \begin{itemize}
-    \item More or less yes
-    \item But does not stick to rules
+    \item More or less yes, ie. understands its personality as a cooking assistant
+    \item But does not stick to rules, eg. hallucinations, prompt injection
     \item Response are often too general
   \end{itemize}
+
+
+  For full prompts and respones see handout
 \end{frame}
-% TODO: idea do a prompt to count all stuff accros  given kind or recipce so it coutns proeucts acress all retrieved recipes
+
 \begin{frame}{7.2 Qualitative analysis - LLM Reasoning 1}
   Q: ``I'm looking for a spicy pasta sauce, but I forgot the name. I think it was related to Arabs?``\\
   A: ``Based on the retrieved recipes, none of them directly mention Arab origin. However,
@@ -428,13 +461,14 @@ this classic dish....
 
 \begin{frame}{7.4 Qualitative analysis - Score vs No Score}
   \begin{itemize}
+    \item Query: "How to make pizza?"
     \item No particular difference
     \item For LLM answers look at the handout
   \end{itemize}
 \end{frame}
 
 \begin{frame}{8. Neural document embeddings}
-  Model: all-MiniLM-L6-v2
+  Embedding Model: all-MiniLM-L6-v2
 \end{frame}
 
 \begin{frame}[fragile]{8.1 Neural document embeddings - out of vocabulary - query}
@@ -472,7 +506,7 @@ this classic dish....
 
 
 \begin{frame}{8.2 Neural document embeddings - hyperparams - Wiki}
-  Grid search over param space and wiki dataset
+  Grid search over param space for wiki dataset
   \begin{itemize}
     \item thresholds=np.arange(0.3, 0.60, 0.05),
     \item k\_values=np.arange(4, 20, 4),
@@ -501,7 +535,7 @@ this classic dish....
 \end{frame}
 
 \begin{frame}{8.2 Neural document embeddings - hyperparams - Recipes}
-  Grid search over param space and wiki dataset
+  Grid search over param space for recipes dataset
   \begin{itemize}
     \item thresholds=np.arange(0.3, 0.60, 0.05),
     \item k\_values=np.arange(4, 20, 4),
@@ -592,6 +626,15 @@ text_splitter = RecursiveCharacterTextSplitter(
 \end{frame}
 
 
+\begin{frame}{9.3 Compression - Chunking - Future questions}
+  \begin{itemize}
+    \item How to choose chunk size and overlap?
+    \item How to chose chunking algorithm?
+    \item How to preserve context of chunk in document?
+    \item Pass chunks, whole documents or maybe few chunks around the retrieved chunk to the LLM?
+  \end{itemize}
+\end{frame}
+
 \begin{frame}{9. Security}
 \end{frame}
 
@@ -665,12 +708,20 @@ our database.
   \end{verbatim}
 \end{frame}
 
+\begin{frame}{9.4 Security - Potential improvements}
+  \begin{itemize}
+    \item Use external model to judge if query is malicious
+    \item Randomize defense prompt to make it less predictable
+  \end{itemize}
+\end{frame}
+
 
 \begin{frame}{10. What have I learned?}
   \begin{itemize}
-    \item Neural embeddings are not the only way to represent documents
-    \item How hard it is to fine-tune retrieval pipeline
-    \item I should have planned and structured experiments up front
+    \item Neural embeddings are not the only way to retrieve documents
+    \item How hard it is to fine-tune retrieval pipeline - amount of things to tweak
+    \item Should have planned and structured experiments up front
+    \item Should have not used python notebook for developing experiments
   \end{itemize}
 \end{frame}
 
