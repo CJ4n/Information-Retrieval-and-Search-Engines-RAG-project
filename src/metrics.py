@@ -118,7 +118,9 @@ def calculate_macro_averages(metrics_per_query):
 
 def calculate_micro_averages_optimized(all_relevant_doc_ids, all_retrieved_doc_ids):
     all_relevant = [
-        doc_id for query_relevant in all_relevant_doc_ids for doc_id in query_relevant
+        doc_id 
+        for query_relevant in all_relevant_doc_ids 
+        for doc_id in query_relevant
     ]
     all_retrieved = [
         doc_id

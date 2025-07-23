@@ -48,11 +48,11 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{TODOS}
-  \begin{itemize}
-    \item  why have i chose F1 as a metric?
-  \end{itemize}
-\end{frame}
+% \begin{frame}{TODOS}
+%   \begin{itemize}
+%     \item  why have i chose F1 as a metric?
+%   \end{itemize}
+% \end{frame}
 
 \begin{frame}{1. Architecture}
   \centering
@@ -314,7 +314,7 @@ def calculate_average_precision(relevant_doc_ids,
     \item Limitations
   \end{itemize}
 
-  See handout for full prompt
+  See handout for full prompt: Section \textbf{6.1}
 \end{frame}
 
 \begin{frame}[fragile]{6.1 Prompt - LLM Instructions - Bad}
@@ -376,9 +376,11 @@ prompt = prompt_template.format(
     \item But does not stick to rules, eg. hallucinations, prompt injection
     \item Response are often too general
   \end{itemize}
+\end{frame}
 
 
-  For full prompts and respones see handout
+\begin{frame}{7.2 Qualitative analysis - Reasoning}
+  For full prompts and responses see handout section \textbf{7.1}
 \end{frame}
 
 \begin{frame}{7.2 Qualitative analysis - LLM Reasoning 1}
@@ -463,7 +465,7 @@ this classic dish....
   \begin{itemize}
     \item Query: "How to make pizza?"
     \item No particular difference
-    \item For LLM answers look at the handout
+    \item For LLM's answers look at the handout sections \textbf{7.3 \& 7.4}
   \end{itemize}
 \end{frame}
 
@@ -520,7 +522,7 @@ this classic dish....
 
 
 \begin{frame}{8.2 Neural document embeddings - Metrics - Wiki}
-  K=8, threshold=0.40
+  Best parameters: K=8, threshold=0.40
   \begin{itemize}
     \item Macro Precision: 0.247
     \item Macro Recall: 0.142
